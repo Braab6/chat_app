@@ -1,38 +1,54 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat App</title>
-</head>
-<body>
+  </head>
+  <body>
     <ul id="messages"></ul>
     <form id="form" action="">
-        <input id="input" autocomplete="off" /><button>Send</button>
+      <input id="input" autocomplete="off" /><button>Send</button>
     </form>
 
     <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
 
     <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        console.log("Initiating app")
         const socket = io();
 
         const form = document.getElementById('form');
         const input = document.getElementById('input');
 
         form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            if (input.value) {
-                socket.emit('chat message', input.value);
-                input.value = '';
-            }
-        });
+                e.preventDefault();
+                if (input.value) {
+                        console.log("Sending message")
+                        socket.emit('chat message', input.value);
+                        input.value = '';
+                      }
+              });
 
+        socket.on("connect_error", (err) => {
+                // the reason of the error, for example "xhr poll error"
+                console.log(err.message);
+
+                // some additional description, for example the status code of the initial HTTP response
+                console.log(err.description);
+
+                // some additional context, for example the XMLHttpRequest object
+                console.log(err.context);
+
+              });
         socket.on('chat message', (msg) => {
-            const item = document.createElement('li');
-            item.textContent = msg;
-            document.getElementById('messages').appendChild(item);
-        });
+                console.log("MESSAGE:" +msg);
+                const item = document.createElement('li');
+                item.textContent = msg;
+                document.getElementById('messages').appendChild(item);
+              });
+            });
     </script>
-</body>
+  </body>
 </html>
