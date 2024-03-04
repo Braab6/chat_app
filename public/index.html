@@ -1,38 +1,36 @@
-<!doctype html>
-<html lang="de">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Chat App</title>
-<style>
-body {
-  font-family: sans-serif;
-}
-.chat.page {
-  display: none;
-}
-.username {
-  font-weight: bold;
-  margin-right: 5px;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
 </head>
 <body>
-<!-- Login-Seite -->
-<div class="login page">
-<h3 class="title">Wie ist dein Name?</h3>
-<input class="usernameInput" type="text" maxlength="14" />
-</div>
+    <ul id="messages"></ul>
+    <form id="form" action="">
+        <input id="input" autocomplete="off" /><button>Send</button>
+    </form>
 
-<!-- Chat-Seite -->
-<div class="chat page">
-<h3 class="title">Was möchtest du allen anderen mitteilen?</h3>
-<input class="inputMessage" placeholder="Type here..."/>
-<ul class="messages"></ul>
-</div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
 
-<!-- Programmcode auf der Client-Seite -->
-<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="/socket.io/socket.io.js"></script>
-<script src="/main.js"></script>
+        const form = document.getElementById('form');
+        const input = document.getElementById('input');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (input.value) {
+                socket.emit('chat message', input.value);
+                input.value = '';
+            }
+        });
+
+        socket.on('chat message', (msg) => {
+            const item = document.createElement('li');
+            item.textContent = msg;
+            document.getElementById('messages').appendChild(item);
+        });
+    </script>
 </body>
 </html>
