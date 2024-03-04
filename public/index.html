@@ -1,10 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title></title>
+<meta charset="UTF-8">
+<title>CoderDojo Linz | Chat Beispiel</title>
+<style>
+body {
+  font-family: sans-serif;
+}
+.chat.page {
+  display: none;
+}
+.username {
+  font-weight: bold;
+  margin-right: 5px;
+}
+</style>
 </head>
 <body>
-  Chat Webapp
+<!-- Login-Seite -->
+<div class="login page">
+<h3 class="title">Wie ist dein Name?</h3>
+<input class="usernameInput" type="text" maxlength="14" />
+</div>
+
+<!-- Chat-Seite -->
+<div class="chat page">
+<h3 class="title">Was möchtest du allen anderen mitteilen?</h3>
+<input class="inputMessage" placeholder="Type here..."/>
+<ul class="messages"></ul>
+</div>
+
+<!-- Programmcode auf der Client-Seite -->
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/main.js"></script>
 </body>
 </html>
