@@ -1,41 +1,27 @@
-const http = require("http");
-const express = require("express");
-const socketio = require("socket.io");
+const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
 
 const app = express();
 const server = http.createServer(app);
-const io = socketio(server);
+const io = socketIo(server);
 
-const port = process.env.PORT || 80;
-
-server.listen(port, function () {
-    console.log("webserver running on port %d", port);
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
 });
 
-app.use(express.static(__dirname + "/public"));
+io.on('connection', (socket) => {
+  console.log('A user connected');
 
-io.on("connection", function (socket) {
-    var addedUser = false;
+  socket.on('disconnect', () => {
+    console.log('User disconnected');
+  });
 
-    socket.on("add user", function (username) {
-        socket.username = username;
-        addedUser = true;
+  socket.on('chat message', (msg) => {
+    io.emit('chat message', msg);
+  });
+});
 
-        socket.emit("login");
-
-        socket.broadcast.emit("user joined", socket.username);
-    });
-
-    socket.on("new message", function (data) {
-        socket.broadcast.emit("new message", {
-            username: socket.username,
-            message: data
-        });
-    });
-
-    socket.on("disconnect", function () {
-        if (addedUser) {
-            socket.broadcast.emit("user left", socket.username);
-        }
-    });
+server.listen(3000, () => {
+  console.log('Server is running on http://localhost:3000');
 });
