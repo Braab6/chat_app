@@ -6,7 +6,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 80;
 
 server.listen(port, function () {
     console.log("webserver running on port %d", port);
