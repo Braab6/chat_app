@@ -1,0 +1,186 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
+
+@font-face {
+    font-family: "JetBrains Mono", sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --color_blue: #64AFF0;
+    --color_green: #96C378;
+    --color_yellow: #E6BE7D;
+    --color_red: #E16E78;
+
+    --color_dark_blue: #406F99;
+    --color_dark_green: #76995F;
+    --color_dark_yellow: #997E53;
+    --color_dark_red: #994B51;
+
+    --color_black: #283237;
+    --color_white: #F4F4F4;
+
+    --background_color: var(--color_black);
+    --foreground_color: var(--color_white);
+
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: var(--background_color);
+
+    overflow-x: hidden;
+    overflow-y: hidden;
+
+    scroll-behavior: smooth;
+}
+
+::-moz-selection {
+    background: var(--color_white);
+}
+
+::selection {
+    background: var(--color_white);
+}
+
+*:focus,
+*:active {
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+
+    color: var(--color_black);
+    background-color: var(--color_white);
+
+    text-decoration: none;
+
+    font-family: "JetBrains Mono", sans-serif;
+}
+
+/* Layers */
+
+#container {
+    padding: 0 0;
+
+    width: 100%;
+    height: 100%;
+
+    scroll-snap-type: x mandatory;
+    scroll-snap-align: start;
+
+    overscroll-behavior-x: none;
+    overflow-x: auto;
+}
+
+#navigation {
+    padding: 25px 25px;
+
+    width: 100%;
+    height: 100%;
+
+    position: fixed;
+
+
+
+
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    place-items: flex-start;
+
+    pointer-events: none;
+}
+
+/* Utility Classes */
+
+.no_select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.no_anim {
+    -webkit-animation: none;
+    -moz-animation: none;
+    animation: none;
+    background-color: var(--color_black);
+}
+
+/* Navigation */
+
+.icon_wrapper {
+    display: inline-flex;
+}
+
+.icon_wrapper .icon {
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+    background-color: var(--color_white);
+    color: var(--color_black);
+
+    position: relative;
+    border-radius: 50px;
+
+    width: 50px;
+    height: 50px;
+    margin: 10px;
+    font-size: 18px;
+
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    pointer-events: visibleFill;
+
+    transition: all 0.5s ease 0.05s;
+    -webkit-transition: all 0.5s ease 0.05s;
+}
+
+.icon_container {
+    transform: translateZ(0) scale(1);
+
+    width: 550px;
+    height: 70px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+
+    place-items: center;
+}
+
+.icon_wrapper .icon:hover {
+    width: 200px;
+    align-items: normal;
+
+    transition: all 0.25s ease 0s;
+    -webkit-transition: all 0.25s ease 0s;
+}
+
+.icon_wrapper .icon:hover span {
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.1);
+
+    transition: all 0.5s ease 0.05s;
+    -webkit-transition: all 0.5s ease 0.05s;
+}
+
+.icon_wrapper .discord:hover {
+    background-color: #7288DA;
+    color: var(--color_white);
+}
+
+.icon_wrapper .github:hover {
+    background-color: #454545;
+    color: var(--color_white);
+}

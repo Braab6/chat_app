@@ -1,54 +1,440 @@
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat App</title>
-  </head>
-  <body>
-    <ul id="messages"></ul>
-    <form id="form" action="">
-      <input id="input" autocomplete="off" /><button>Send</button>
-    </form>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
 
-    <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+        <meta name="description" content="prototype chat app in HTML, CSS, js and with an nodejs backend"/>
+        <meta name="theme-color" content="#F4F4F4"/>
+        <meta name="keywords" content="chat_app, chat_messenger"/>
+        <meta name="author" content="unset"/>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        console.log("Initiating app")
-        const socket = io();
+        <meta property="og:type" content="website"/>
+        <meta property="og:title" content="none"/>
+        <meta property="og:description" content="unset"/>
+        <meta property="og:image" content="unset"/>
+        <meta property="og:url" content="unset"/>
 
-        const form = document.getElementById('form');
-        const input = document.getElementById('input');
+        <link rel="icon" type="image/x-icon" href="unset"/>
 
-        form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                if (input.value) {
-                        console.log("Sending message")
-                        socket.emit('chat message', input.value);
-                        input.value = '';
-                      }
-              });
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"/>
+        <!-- <link rel="stylesheet" href="/public/style.css"/> -->
 
-        socket.on("connect_error", (err) => {
-                // the reason of the error, for example "xhr poll error"
-                console.log(err.message);
+        <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+        <script src="script.js"></script>
 
-                // some additional description, for example the status code of the initial HTTP response
-                console.log(err.description);
+        <title>Chat App</title>
+    </head>
 
-                // some additional context, for example the XMLHttpRequest object
-                console.log(err.context);
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
 
-              });
-        socket.on('chat message', (msg) => {
-                console.log("MESSAGE:" +msg);
-                const item = document.createElement('li');
-                item.textContent = msg;
-                document.getElementById('messages').appendChild(item);
-              });
-            });
-    </script>
-  </body>
+        @font-face {
+            src: local("sans-serif");
+            font-family: "JetBrains Mono", sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color_blue: #64AFF0;
+            --color_green: #96C378;
+            --color_yellow: #E6BE7D;
+            --color_red: #E16E78;
+
+            --color_dark_blue: #406F99;
+            --color_blue2: #7288DA;
+            --color_dark_green: #76995F;
+            --color_dark_yellow: #997e53;
+            --color_dark_red: #994B51;
+
+            --color_black: #283237;
+            --color_white: #F4F4F4;
+
+            --background_color: var(--color_black);
+            --foreground_color: var(--color_white);
+
+            --shadow_color: #0000001A;
+
+            scrollbar-gutter: stable;
+            scrollbar-width: thin;
+            scrollbar-color: var(--background_color);
+
+            overflow-x: hidden;
+            overflow-y: hidden;
+
+            scroll-behavior: smooth;
+        }
+
+        ::-moz-selection {
+            background: var(--color_white);
+        }
+
+        ::selection {
+            background: var(--color_white);
+        }
+
+        *:focus,
+        *:active {
+            outline: none !important;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+
+            color: var(--color_black);
+            background-color: var(--color_white);
+
+            text-decoration: none;
+
+            font-family: "JetBrains Mono", sans-serif;
+        }
+
+        /* Input Buttons */
+
+        #text_input {
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            background-color: var(--color_red);
+
+            font-family: "JetBrains Mono", sans-serif;
+        }
+
+        #send_button {
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            background-color: var(--color_red);
+            font-family: "JetBrains Mono", sans-serif;
+        }
+
+        /* Layers */
+
+        #container {
+            padding: 0 0;
+
+            width: 100%;
+            height: 100%;
+
+            scroll-snap-type: y mandatory;
+            scroll-snap-align: start;
+
+            overscroll-behavior: none;
+            overflow-x: hidden;
+        }
+
+        #navigation {
+            padding: 25px 25px;
+
+            width: 100%;
+            height: 100%;
+
+            position: fixed;
+
+            flex-direction: row;
+            align-items: center;
+            text-align: center;
+            place-items: flex-start;
+
+            pointer-events: none;
+        }
+
+        #lower_navigation {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 0 25px;
+        }
+
+        #main_container {
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 25px;
+        }
+
+        #text_field {
+            width: 100%;
+            height: 100%;
+        }
+
+        #send_message_container {
+            transform: translateZ(0) scale(1);
+
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            text-align: center;
+
+            bottom: 0;
+
+            place-items: center;
+        }
+
+        /* Utility Classes */
+
+        .no_select {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .no_anim {
+            -webkit-animation: none;
+            -moz-animation: none;
+            animation: none;
+            background-color: var(--color_black);
+        }
+
+        .bubble {
+            box-shadow: 0 10px 10px var(--shadow_color);
+        }
+
+        /* Text Field */
+
+        .text_field_wrapper .text_field {
+            box-shadow: 0 10px 10px var(--shadow_color);
+            background-color: var(--color_white);
+            color: var(--color_black);
+
+            position: relative;
+            border-radius: 50px;
+
+            width: 50px;
+            height: 50px;
+            margin: 10px;
+            font-size: 18px;
+
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+            pointer-events: visibleFill;
+
+            transition: all 0.5s ease 0.05s;
+            -webkit-transition: all 0.5s ease 0.05s;
+        }
+
+        .text_field_wrapper .text_field:hover {
+            width: 1000px;
+            align-items: normal;
+
+            transition: all 0.25s ease 0s;
+            -webkit-transition: all 0.25s ease 0s;
+        }
+
+        .text_field_wrapper .text_field:hover span {
+            text-shadow: 0 -1px 0 var(--shadow_color);
+
+            transition: all 0.5s ease 0.05s;
+            -webkit-transition: all 0.5s ease 0.05s;
+
+            background-color: #7288DA;
+            color: var(--color_white);
+        }
+
+        /* Navigation */
+
+        .icon_wrapper .icon {
+            box-shadow: 0 10px 10px var(--shadow_color);
+            background-color: var(--color_white);
+            color: var(--color_black);
+
+            position: relative;
+            border-radius: 50px;
+
+            width: 50px;
+            height: 50px;
+            margin: 10px;
+            font-size: 18px;
+
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+            pointer-events: visibleFill;
+
+            transition: all 0.5s ease 0.05s;
+            -webkit-transition: all 0.5s ease 0.05s;
+        }
+
+        .icon_container {
+            transform: translateZ(0) scale(1);
+
+            width: 550px;
+            height: 70px;
+            border-radius: 70px;
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            text-align: center;
+
+            place-items: center;
+
+            background-color: var(--color_white);
+        }
+
+        .icon_wrapper .icon:hover {
+            width: 200px;
+            align-items: normal;
+
+            transition: all 0.25s ease 0s;
+            -webkit-transition: all 0.25s ease 0s;
+        }
+
+        .icon_wrapper .icon:hover span {
+            text-shadow: 0 -1px 0 var(--shadow_color);
+
+            transition: all 0.5s ease 0.05s;
+            -webkit-transition: all 0.5s ease 0.05s;
+        }
+
+        .icon_wrapper .discord:hover {
+            background-color: var(--colo);
+            color: var(--color_white);
+        }
+
+        .icon_wrapper .github:hover {
+            background-color: #454545;
+            color: var(--color_white);
+        }
+
+        /* Dark Mode Button */
+
+        .toggle {
+            --size: 50px;
+            
+            appearance: none;
+            outline: none;
+            cursor: pointer;
+            
+            width: var(--size);
+            height: var(--size);
+            box-shadow: inset calc(var(--size) * 0.33) calc(var(--size) * -0.25) 0;
+            border-radius: 100px;
+            color: hsl(240, 100%, 95%);
+            
+            transition: all 500ms;
+            
+            &:checked {
+                --ray-size: calc(var(--size) * -0.5);
+                --offset-orthogonal: calc(var(--size) * 0.65);
+                --offset-diagonal: calc(var(--size) * 0.45);
+
+                transform: scale(0.80);
+                color: hsl(40, 100%, 50%);
+                box-shadow: inset 0 0 0 var(--size);
+            }
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .background {
+            --bg: hsl(240, 100%, 10%);
+            background: var(--bg);
+            position: fixed;
+            height: 100vh;
+            width: 100vw;
+            transition: background 500ms;
+        }
+
+        .toggle {
+            z-index: 1;
+            &:checked {
+                & ~ .background {
+                    --bg: white;
+                }
+
+                & ~ .title {
+                    --color: hsl(40, 100%, 50%);
+                }
+            }
+        }
+
+        .title {
+            --color: hsl(240, 100%, 95%);
+            color: var(--color);
+            z-index: 1;
+            cursor: pointer;
+            display: block;
+            padding: 20px 0 0;
+            transition: color 500ms;
+        }
+    </style>
+
+    <body translate="no" onload="main()">
+        <div id="container">
+            <div id="navigation" class="bubble">
+                <div class="icon_container icon_wrapper">
+                    <div class="icon"><input id="toggle" class="toggle" type="checkbox"></div>
+                    <a href="https://github.com/cally72jhb/vector-addon" target="_blank" class="icon github"><span><i class="fab fa-github"></i></span></a>
+                    <a href="https://discord.gg/A3nYgbKeXR" target="_blank" class="icon discord"><span><i class="fab fa-discord"></i></span></a>
+                </div>
+            </div>
+
+            <div class="chat_content">
+
+            </div>
+
+            <div style="width: 100%; height: 100%; padding: 25px 25px;">
+                <div id="main_container">
+                    <div id="text_field" style="background-color: var(--color_green);">
+                        text field
+                    </div>
+                    <div id="lower_navigation">
+                        <div style="width: 100%; height: 100px; border-radius: 50px;">
+                            <div id="text_input">
+                                <input type="text" placeholder="type message here..." style="width: 100%; height: 100%; border: none; outline: none; padding: 10px; box-sizing: border-box; border-radius: 50px; background-color: var(--color_red); font-size: 22px;">
+                            </div>
+                        </div>
+                        <div style="width: 100%; height: 100px; border-radius: 50px;">
+                            <div id="send_button">
+                                send message
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
