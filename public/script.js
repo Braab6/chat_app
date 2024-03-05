@@ -12,21 +12,19 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("[INFO] sending_message");
             socket.emit("chat_message", text_input.value);
             text_input.value = "";
-        } else {
-            console.log("[INFO] no text input");
         }
     };
 
-    socket.on("connect_error", (err) => {
-        console.log(err.message);
-        console.log(err.description);
-        console.log(err.context);
+    socket.on("connect_error", (error) => {
+        console.log(error.message);
+        console.log(error.description);
+        console.log(error.context);
     });
 
-    socket.on("chat_message", (msg) => {
-        console.log("[INFO] message:" + msg);
+    socket.on("chat_message", (message) => {
+        console.log("[INFO] recieved message:" + message);
         const item = document.createElement("li");
-        item.textContent = msg;
+        item.textContent = message;
         chat_content.appendChild(item);
     });
 });

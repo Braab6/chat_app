@@ -20,11 +20,10 @@ const io = socketIo(server);
 app.use(express.static(__dirname + "/public",  { dotfiles: "allow" }));
 
 let num_users = 0;
-let history = {};
+let chats = {};
 
 io.on("connection", (socket) => {
     let added_user = false;
-
     console.log("user connected");
 
     socket.on("username", (username) => {
@@ -32,19 +31,46 @@ io.on("connection", (socket) => {
         socket.username = username;
         added_user = true;
     });
+
+    socket.on("new_chat", (chat) => {
+        console.log("chat " + chat["name"] + " created");
+        // the given chat MUST be a json consisting of the name and the users of a conversation
+
+        let conversation = {};
+        conversation["users"] = []; // list of users who can access the chat
+        conversation["messages"] = {}; // json of sent messages in the corresponding conversation with timestamp as key
+        // value of messages is a json consisting of the sender and the message
+
+        chats[chat["name"]].push(conversation); // json of all the existing conversation with the conversation-name as key
+    });
     
     socket.on("chat_message", (data) => {
-        console.log("received chat message: " + data);
+        // data MUST be a json consisting of the message and the conversation where the sender is chatting in
+        console.log("received chat message by " + socket.username);
 
-        const message = { "name": socket.username, "message_content": data };
+        const message = { "sender": socket.username, "message": data["message"] };
         const time_stamp = Date.now();
 
-        if (history[time_stamp] == null) {
-            history[time_stamp] = [];
+        if (chats[data["conversation"]]["users"].includes(socket.username)) {
+            chats[data["conversation"]]["messages"].push({ timestamp: message });
+        }
+        
+        
+    });
+
+    socket.on("recent", (data) => { // data must be consisting of number (number of messages) and conversation
+        let messages = chats[data["conversation"]]["messages"];
+        let output = {};
+        let number = data["number"];
+        let keys = Object.keys(messages);
+        
+        keys = keys.reverse();
+
+        for (i = 0; i < number; i++) {
+            output[keys[i]].push[messages[keys[i]]];
         }
 
-        history[time_stamp].push(message);
-        io.emit("chat_message", message);
+        io.emit("messages", output);
     });
 
     socket.on("disconnect", () => {
