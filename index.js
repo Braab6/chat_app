@@ -53,6 +53,7 @@ io.on("connection", (socket) => {
         const conversation = data["conversation"]
 
         if (chats[conversation]["users"].includes(socket.username)) {
+            console.log(chats[conversation]["messages"])
             chats[conversation]["messages"].push({ timestamp: message });
         }
         
