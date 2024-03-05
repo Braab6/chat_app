@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
     socket.on("chat_message", (message) => {
         console.log("[INFO] recieved message by " + message["sender"] + " content: " + message["message"]);
         const item = document.createElement("li");
-        item.textContent = message["message"];
+        item.textContent = message["sender"] + ": " + message["message"];
         chat_content.appendChild(item);
     });
 });
