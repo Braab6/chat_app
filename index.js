@@ -20,7 +20,7 @@ const io = socketIo(server);
 app.use(express.static(__dirname + "/public",  { dotfiles: "allow" }));
 
 let num_users = 0;
-let chats = {};
+let chats = { "public": {"users": "%everyone%", "messages": {} } };
 
 io.on("connection", (socket) => {
     let added_user = false;
