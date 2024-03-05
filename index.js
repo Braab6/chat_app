@@ -21,15 +21,24 @@ app.use(express.static(__dirname + "/public",  { dotfiles: "allow" }));
 
 let num_users = 0;
 let chats = { "default": { "users": ["@everyone", "username"], "messages": {} } };
+let accounts = { "default": "12345678" }; //name / password
+let logged_in = [];
 
 io.on("connection", (socket) => {
     let added_user = false;
     console.log("user connected");
 
-    socket.on("login", (username) => {
-        console.log("user " + username + " connected");
-        socket.username = username;
-        added_user = true;
+    socket.on("login", (user) => {
+
+        if (Object.keys(accounts).includes(user["name"])) {
+            if (accounts[user["name"]] == user["password"]) {
+                logged_in.push(user["name"]);
+                console.log("user " + username + " connected");
+                socket.username = username;
+                added_user = true;
+                num_users += 1;
+            }
+        }
     });
 
     socket.on("new_chat", (chat) => {

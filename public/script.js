@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const chat_content = document.getElementById("chat_content");
     const extra = [ "sagt", "schreit" , "ruft", "flüstert", "schreibt", "betont", "kommentiert", "erwiedert", "verbreitet", "haucht" ];
 
-    socket.emit("login", "username");
+    socket.emit("login", { "default": "12345678" });
 
     send_button.onclick = function(event) {
         if (text_input.value != null) {
@@ -17,6 +17,13 @@ document.addEventListener("DOMContentLoaded", function () {
             text_input.value = "";
         }
     };
+
+    text_input.addEventListener("keydown", function(event){
+        if (event.key === "Enter" && event.shiftKey){
+            event.preventDefault();
+            send_button.click();
+        }
+    });
 
     socket.on("connect_error", (error) => {
         console.log(error.message);
@@ -28,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("[INFO] received message by " + message["sender"] + " content: " + message["message"]);
         const item = document.createElement("li");
 
-        const count_extra = 12;
+        const count_extra = 10;
         const random_extra = Math.floor(Math.random() * count_extra);
 
         item.textContent = message["sender"] + " " + extra[random_extra] + ": " + message["message"];
