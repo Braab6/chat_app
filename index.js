@@ -46,23 +46,25 @@ io.on("connection", (socket) => {
     
     socket.on("chat_message", (data) => {
         // data MUST be a json consisting of the message and the conversation where the sender is chatting in
-        console.log("received chat message by " + socket.username);
-        
-        const message = { "sender": socket.username, "message": data["message"] };
-        const time_stamp = Date.now();
-        const conversation_name = data["conversation"];
-        let conversation = chats[conversation_name];
+        console.log("received chat message by " + socket.username)
 
-        if (conversation["users"].includes(socket.username)) {
-            if (conversation["messages"][time_stamp] == null) {
-                conversation["messages"][time_stamp] = [];
+        if (data["message"] != "") {
+            const message = { "sender": socket.username, "message": data["message"] };
+            const time_stamp = Date.now();
+            const conversation_name = data["conversation"];
+            let conversation = chats[conversation_name];
+
+            if (conversation["users"].includes(socket.username)) {
+                if (conversation["messages"][time_stamp] == null) {
+                    conversation["messages"][time_stamp] = [];
+                }
+
+                conversation["messages"][time_stamp].push(message);
+
+                chats[conversation_name] = conversation;
+
+                io.emit("chat_message", message);
             }
-
-            conversation["messages"][time_stamp].push(message);
-
-            chats[conversation_name] = conversation;
-
-            io.emit("chat_message", message);
         }
     });
 
