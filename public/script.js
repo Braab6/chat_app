@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const send_button = document.getElementById("send_button");
     const chat_content = document.getElementById("chat_content");
 
-    socket.emit("login", "username")
+    socket.emit("login", "username");
 
     send_button.onclick = function(event) {
         if (text_input.value != null) {

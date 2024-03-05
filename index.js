@@ -20,13 +20,13 @@ const io = socketIo(server);
 app.use(express.static(__dirname + "/public",  { dotfiles: "allow" }));
 
 let num_users = 0;
-let chats = { "default": { "users": ["@everyone"], "messages": {} } };
+let chats = { "default": { "users": ["@everyone", "username"], "messages": {} } };
 
 io.on("connection", (socket) => {
     let added_user = false;
     console.log("user connected");
 
-    socket.on("username", (username) => {
+    socket.on("login", (username) => {
         console.log("user " + username + " connected");
         socket.username = username;
         added_user = true;
@@ -47,12 +47,13 @@ io.on("connection", (socket) => {
     socket.on("chat_message", (data) => {
         // data MUST be a json consisting of the message and the conversation where the sender is chatting in
         console.log("received chat message by " + socket.username);
-
+        
         const message = { "sender": socket.username, "message": data["message"] };
         const time_stamp = Date.now();
+        const conversation = data["conversation"]
 
-        if (chats[data["conversation"]]["users"].includes(socket.username)) {
-            chats[data["conversation"]]["messages"].push({ timestamp: message });
+        if (chats[conversation]["users"].includes(socket.username)) {
+            chats[conversation]["messages"].push({ timestamp: message });
         }
         
         
