@@ -63,7 +63,7 @@ io.on("connection", (socket) => {
             console.log(conversation_name);
             console.log(conversation);
 
-            chats[conversation_name].push(conversation);
+            chats[conversation_name] = conversation;
         }
         
     });
