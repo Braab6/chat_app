@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const item = document.createElement("li");
 
         const countExtra = 12;
-        const randomExtra = Math.round(Math.random() * countExtra);
+        const randomExtra = Math.floor(Math.random() * countExtra);
         console.log(randomExtra);
 
         item.textContent = message["sender"] + ": " + message["message"];
