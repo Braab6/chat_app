@@ -54,7 +54,7 @@ io.on("connection", (socket) => {
         let conversation = chats[conversation_name];
 
         if (conversation["users"].includes(socket.username)) {
-            conversation["messages"][timestamp].push(message);
+            conversation["messages"][time_stamp].push(message);
             chats[conversation_name].push(conversation);
         }
         
