@@ -58,14 +58,12 @@ io.on("connection", (socket) => {
                 conversation["messages"][time_stamp] = [];
             }
 
-            conversation["messages"][time_stamp].push(message);
-            
-            console.log(conversation_name);
-            console.log(conversation);
+            conversation["messages"][time_stamp].push(message)
 
             chats[conversation_name] = conversation;
+
+            io.emit("chat_message", message);
         }
-        
     });
 
     socket.on("recent", (data) => { // data must be consisting of number (number of messages) and conversation
