@@ -10,12 +10,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     socket.emit("login", { "name": "default", "password": "12345678" });
 
+    let lastMessageTime = 0;
+    const messageCooldown = 500;
+
     send_button.onclick = function(event) {
-        if (text_input.value != null) {
-            console.log("[INFO] sending_message");
-            socket.emit("chat_message", { "message": text_input.value, "conversation": "default"});
-            text_input.value = "";
-        }
+       sendMessage();
     };
 
     text_input.addEventListener("keydown", function(event){
@@ -24,6 +23,20 @@ document.addEventListener("DOMContentLoaded", function () {
             send_button.click();
         }
     });
+
+    function sendMessage() {
+        const currentTime = Date.now();
+        if (currentTime - lastMessageTime > messageCooldown) {
+            if (text_input.value.trim() !== "") {
+                console.log("[INFO] sending_message");
+                socket.emit("chat_message", text_input.value);
+                text_input.value = "";
+                lastMessageTime = currentTime;
+            }
+        } else {
+            console.log("[INFO] Message cooldown in effect. Please wait before sending another message.");
+        }
+    }
 
     socket.on("connect_error", (error) => {
         console.log(error.message);

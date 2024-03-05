@@ -19,7 +19,7 @@ const io = socketIo(server);
 
 app.use(express.static(__dirname + "/public",  { dotfiles: "allow" }));
 
-let num_users = 0;
+let num_users = 0; // the number of active users
 let chats = { "default": { "users": ["@everyone", "username"], "messages": {} } };
 let accounts = { "default": "12345678" }; //name / password
 let logged_in = [];
@@ -29,16 +29,19 @@ io.on("connection", (socket) => {
     console.log("user connected");
 
     socket.on("login", (user) => {
-
-        if (Object.keys(accounts).includes(user["name"])) {
-            if (accounts[user["name"]] == user["password"]) {
-                logged_in.push(user["name"]);
+        if (Object.keys(accounts).includes(user["name"])) { // checks if the user exists
+            if (accounts[user["name"]] == user["password"]) { // checks if the password is correct
+                logged_in.push(user["name"]); // adds user to the list of online users
                 console.log("user " + user["name"] + " connected");
                 socket.username = user["name"];
                 added_user = true;
                 num_users += 1;
             }
         }
+    });
+
+    socket.on("register", (user) => {
+        accounts[user["name"]].push(user["password"]) // registers new user
     });
 
     socket.on("new_chat", (chat) => {
