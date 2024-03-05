@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const text_input = document.getElementById("text_input");
     const send_button = document.getElementById("send_button");
     const chat_content = document.getElementById("chat_content");
+    const extra = [ "sagt", "schreit" , "ruft", "flüstert", "schreibt", "betont", "kommentiert", "erwiedert", "verbreitet", "haucht" ];
 
     socket.emit("login", "username");
 
@@ -27,11 +28,10 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("[INFO] received message by " + message["sender"] + " content: " + message["message"]);
         const item = document.createElement("li");
 
-        const countExtra = 12;
-        const randomExtra = Math.floor(Math.random() * countExtra);
-        console.log(randomExtra);
+        const count_extra = 12;
+        const random_extra = Math.floor(Math.random() * count_extra);
 
-        item.textContent = message["sender"] + ": " + message["message"];
+        item.textContent = message["sender"] + " " + extra[random_extra] + ": " + message["message"];
         chat_content.appendChild(item);
     });
 });
