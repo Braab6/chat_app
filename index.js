@@ -37,7 +37,11 @@ io.on("connection", (socket) => {
                 socket.username = username;
                 added_user = true;
                 num_users += 1;
+            } else {
+                console.log("Wrong password")
             }
+        } else {
+            console.log("User does not exist")
         }
     });
 
