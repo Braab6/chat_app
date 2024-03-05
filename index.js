@@ -58,7 +58,7 @@ io.on("connection", (socket) => {
                 conversation["messages"][time_stamp] = [];
             }
 
-            conversation["messages"][time_stamp].push(message)
+            conversation["messages"][time_stamp].push(message);
 
             chats[conversation_name] = conversation;
 
