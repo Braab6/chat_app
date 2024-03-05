@@ -33,8 +33,8 @@ io.on("connection", (socket) => {
         if (Object.keys(accounts).includes(user["name"])) {
             if (accounts[user["name"]] == user["password"]) {
                 logged_in.push(user["name"]);
-                console.log("user " + username + " connected");
-                socket.username = username;
+                console.log("user " + user["name"] + " connected");
+                socket.username = user["name"];
                 added_user = true;
                 num_users += 1;
             }
