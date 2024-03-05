@@ -34,7 +34,7 @@ io.on("connection", (socket) => {
     });
     
     socket.on("chat_message", (data) => {
-        console.log("received chat message");
+        console.log("received chat message: " + data);
 
         const message = { "name": socket.username, "message_content": data };
         const time_stamp = Date.now();

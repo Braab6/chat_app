@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    console.log("Initiating app");
+    console.log("[INFO] initializing app");
 
     const socket = io();
 
@@ -12,13 +12,14 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("[INFO] sending_message");
             socket.emit("chat_message", text_input.value);
             text_input.value = "";
+
         }
     };
 
-    socket.on("connect_error", (error) => {
-        console.log(error.message);
-        console.log(error.description);
-        console.log(error.context);
+    socket.on("connect_error", (err) => {
+        console.log(err.message);
+        console.log(err.description);
+        console.log(err.context);
     });
 
     socket.on("chat_message", (msg) => {
