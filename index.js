@@ -54,7 +54,12 @@ io.on("connection", (socket) => {
         let conversation = chats[conversation_name];
 
         if (conversation["users"].includes(socket.username)) {
+            if (conversation["messages"][time_stamp] == null) {
+                conversation["messages"][time_stamp] = [];
+            }
+
             conversation["messages"][time_stamp].push(message);
+
             chats[conversation_name].push(conversation);
         }
         
