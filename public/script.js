@@ -24,12 +24,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     socket.on("chat_message", (message) => {
-        console.log("[INFO] recieved message by " + message["sender"] + " content: " + message["message"]);
+        console.log("[INFO] received message by " + message["sender"] + " content: " + message["message"]);
         const item = document.createElement("li");
 
-        //const countExtra = 12;
-        //const randomExtra = (Math.random() * countExtra).round();
-        //console.log(randomExtra);
+        const countExtra = 12;
+        const randomExtra = Math.round(Math.random() * countExtra);
+        console.log(randomExtra);
 
         item.textContent = message["sender"] + ": " + message["message"];
         chat_content.appendChild(item);
