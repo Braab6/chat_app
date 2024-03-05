@@ -50,11 +50,12 @@ io.on("connection", (socket) => {
         
         const message = { "sender": socket.username, "message": data["message"] };
         const time_stamp = Date.now();
-        const conversation = data["conversation"]
+        const conversation_name = data["conversation"];
+        let conversation = chats[conversation_name];
 
-        if (chats[conversation]["users"].includes(socket.username)) {
-            console.log(chats[conversation]["messages"])
-            chats[conversation]["messages"].push({ timestamp: message });
+        if (conversation["users"].includes(socket.username)) {
+            conversation["messages"][timestamp].push(message);
+            chats[conversation_name].push(conversation);
         }
         
     });
