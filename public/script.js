@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const chat_content = document.getElementById("chat_content");
     const extra = [ "sagt", "schreit" , "ruft", "flüstert", "schreibt", "betont", "kommentiert", "erwiedert", "verbreitet", "haucht" ];
 
-    socket.emit("login", { "default": "12345678" });
+    socket.emit("login", { "name": "default", "password": "12345678" });
 
     send_button.onclick = function(event) {
         if (text_input.value != null) {
