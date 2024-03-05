@@ -7,10 +7,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const send_button = document.getElementById("send_button");
     const chat_content = document.getElementById("chat_content");
 
+    socket.emit("login", "username")
+
     send_button.onclick = function(event) {
         if (text_input.value != null) {
             console.log("[INFO] sending_message");
-            socket.emit("chat_message", text_input.value);
+            socket.emit("chat_message", { "message": text_input.value, "conversation": "default"});
             text_input.value = "";
         }
     };
