@@ -99,7 +99,6 @@
 
             font-family: "JetBrains Mono", sans-serif;
         }
-
         /* Input Buttons */
 
         #text_input {
@@ -128,30 +127,7 @@
             background-color: var(--color_red);
             font-family: "JetBrains Mono", sans-serif;
         }
-        /*text decorations*/
-        li {
-        list-style-type: none;
-        text-decoration: none;
-        }
-        .chat-list li {
-        list-style: none; 
-        margin-bottom: 10px;
-        }
 
-        .chat-list li .added-item {
-        background-color: #3498db; /* Set background color */
-        color: #fff; /* Set text color */
-        padding: 8px 12px; /* Add padding for better visual appearance */
-        border-radius: 8px; /* Apply border radius for rounded corners */
-        display: inline-block; /* Make it an inline block to contain content */
-        }
-
-        /* Example: Style for the added time within the list item */
-        .chat-list li .added-time {
-        font-size: 12px; /* Adjust font size */
-        color: #999; /* Set a subdued color for time */
-        margin-left: 10px; /* Add some space between item and time */
-        }
         /* Layers */
 
         #container {
@@ -390,12 +366,12 @@
 
             </div>
 
-            <div style="width: 100%; height: 100%; padding: 25px 25px;">
+            <div style="width: 100%; height: 100%;">
                 <div id="main_container">
                     <div id="chat_content" style="background-color: var(--color_green);">
                         text field
                     </div>
-                    <div id="lower_navigation">
+                    <div id="lower_navigation" style="background-color: #6969698d; height: 100px;">
                         <div style="width: 100%; height: 80px; border-radius: 50px; box-sizing: border-box;">
                             <div>
                                 <textarea id="text_input" placeholder="Type message here..." style="
@@ -416,7 +392,7 @@
                                 "></textarea>
                             </div>
                         </div>
-                        <div style="width: 20%; height: 150px; border-radius: 50px; overflow: hidden; padding: 40px; box-sizing: border-box;">
+                        <div style="width: 20%; height: 100px; border-radius: 50px; overflow: hidden; padding: 10px; box-sizing: border-box;">
                             <button id="send_button" style="
                                 width: 100%;
                                 height: 100%;
@@ -427,13 +403,13 @@
                                 cursor: pointer;
                                 font-size: 16px;
                                 border-radius: 10px; 
-                                padding: 15px; 
                                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+
+
                             ">
                                 Send Message
                             </button>
-
-                            </div>
+                        
                         </div>
                     </div>
                 </div>
