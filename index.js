@@ -59,6 +59,9 @@ io.on("connection", (socket) => {
             }
 
             conversation["messages"][time_stamp].push(message);
+            
+            console.log(conversation_name);
+            console.log(conversation);
 
             chats[conversation_name].push(conversation);
         }
