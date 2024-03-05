@@ -18,7 +18,7 @@
 
         <link rel="icon" type="image/x-icon" href="unset"/>
 
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
         <!-- <link rel="stylesheet" href="/public/style.css"/> -->
 
         <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
@@ -176,7 +176,7 @@
             gap: 25px;
         }
 
-        #text_field {
+        #chat_content {
             width: 100%;
             height: 100%;
         }
@@ -215,52 +215,6 @@
 
         .bubble {
             box-shadow: 0 10px 10px var(--shadow_color);
-        }
-
-        /* Text Field */
-
-        .text_field_wrapper .text_field {
-            box-shadow: 0 10px 10px var(--shadow_color);
-            background-color: var(--color_white);
-            color: var(--color_black);
-
-            position: relative;
-            border-radius: 50px;
-
-            width: 50px;
-            height: 50px;
-            margin: 10px;
-            font-size: 18px;
-
-            display: flex;
-            flex-direction: column;
-            text-align: center;
-            align-items: center;
-            justify-content: center;
-
-            cursor: pointer;
-            pointer-events: visibleFill;
-
-            transition: all 0.5s ease 0.05s;
-            -webkit-transition: all 0.5s ease 0.05s;
-        }
-
-        .text_field_wrapper .text_field:hover {
-            width: 1000px;
-            align-items: normal;
-
-            transition: all 0.25s ease 0s;
-            -webkit-transition: all 0.25s ease 0s;
-        }
-
-        .text_field_wrapper .text_field:hover span {
-            text-shadow: 0 -1px 0 var(--shadow_color);
-
-            transition: all 0.5s ease 0.05s;
-            -webkit-transition: all 0.5s ease 0.05s;
-
-            background-color: #7288DA;
-            color: var(--color_white);
         }
 
         /* Navigation */
@@ -324,7 +278,7 @@
         }
 
         .icon_wrapper .discord:hover {
-            background-color: var(--colo);
+            background-color: var(--color_blue);
             color: var(--color_white);
         }
 
@@ -336,8 +290,8 @@
         /* Dark Mode Button */
 
         .toggle {
-            --size: 50px;
-            
+            --size: 40px;
+
             appearance: none;
             outline: none;
             cursor: pointer;
@@ -349,16 +303,16 @@
             color: hsl(240, 100%, 95%);
             
             transition: all 500ms;
-            
-            &:checked {
-                --ray-size: calc(var(--size) * -0.5);
-                --offset-orthogonal: calc(var(--size) * 0.65);
-                --offset-diagonal: calc(var(--size) * 0.45);
+        }
 
-                transform: scale(0.80);
-                color: hsl(40, 100%, 50%);
-                box-shadow: inset 0 0 0 var(--size);
-            }
+        .toggle:checked {
+            --ray-size: calc(var(--size) * -0.5);
+            --offset-orthogonal: calc(var(--size) * 0.65);
+            --offset-diagonal: calc(var(--size) * 0.45);
+
+            transform: scale(0.80);
+            color: hsl(40, 100%, 50%);
+            box-shadow: inset 0 0 0 var(--size);
         }
 
         body {
@@ -380,15 +334,6 @@
 
         .toggle {
             z-index: 1;
-            &:checked {
-                & ~ .background {
-                    --bg: white;
-                }
-
-                & ~ .title {
-                    --color: hsl(40, 100%, 50%);
-                }
-            }
         }
 
         .title {
@@ -402,13 +347,15 @@
         }
     </style>
 
-    <body translate="no" onload="main()">
+    <body translate="no">
         <div id="container">
             <div id="navigation" class="bubble">
                 <div class="icon_container icon_wrapper">
                     <div class="icon"><input id="toggle" class="toggle" type="checkbox"></div>
                     <a href="https://github.com/cally72jhb/vector-addon" target="_blank" class="icon github"><span><i class="fab fa-github"></i></span></a>
-                    <a href="https://discord.gg/A3nYgbKeXR" target="_blank" class="icon discord"><span><i class="fab fa-discord"></i></span></a>
+                    <a href="https://discord.gg/A3nYgbKeXR" target="_blank" class="icon discord">
+                        <i class="fa-solid fa-user"></i>
+                    </a>
                 </div>
             </div>
 
@@ -418,7 +365,7 @@
 
             <div style="width: 100%; height: 100%; padding: 25px 25px;">
                 <div id="main_container">
-                    <div id="text_field" style="background-color: var(--color_green);">
+                    <div id="chat_content" style="background-color: var(--color_green);">
                         text field
                     </div>
                     <div id="lower_navigation">
