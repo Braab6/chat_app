@@ -56,7 +56,6 @@ io.on("connection", (socket) => {
             chats[conversation]["messages"].push({ timestamp: message });
         }
         
-        
     });
 
     socket.on("recent", (data) => { // data must be consisting of number (number of messages) and conversation
