@@ -46,12 +46,14 @@
             --color_green: #96C378;
             --color_yellow: #E6BE7D;
             --color_red: #E16E78;
+            --subtle-bgcolor: #f9f9f9;
 
             --color_dark_blue: #406F99;
             --color_blue2: #7288DA;
             --color_dark_green: #76995F;
             --color_dark_yellow: #997e53;
             --color_dark_red: #994B51;
+            --color_blackbutnotblack: #333;
 
             --color_black: #283237;
             --color_white: #F4F4F4;
@@ -177,10 +179,9 @@
         }
 
         #chat_content {
-            flex: 3
-            /*width: 100%;
-            height: 100%;*/
-        
+            flex: 3;
+            width: 80%;
+            height: 100%;
         }
 
         #send_message_container {
@@ -362,23 +363,50 @@
             </div>
 
             <div class="chat_content">
+                
 
             </div>
 
             <div style="width: 100%; height: 100%; padding: 25px 25px;">
                 <div id="main_container">
                     <div id="chat_content" style="background-color: var(--color_green);">
-                        <div style="text-decoration: none; word-wrap: break-word;">template message --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</div>
+                        text field
                     </div>
                     <div id="lower_navigation">
-                        <div style="width: 100%; height: 100px; border-radius: 50px;">
+                        <div style="width: 100%; height: 100px; border-radius: 50px; padding: 12px; box-sizing: border-box;">
                             <div>
-                                <input id="text_input" type="text" placeholder="type message here..." style="width: 100%; height: 100%; border: none; outline: none; padding: 10px; box-sizing: border-box; border-radius: 50px; background-color: var(--color_red); font-size: 22px;">
+                                <textarea id="text_input" placeholder="Type message here..." style="
+                                    width: 100%;
+                                    height: 100px;
+                                    border: 1px solid var(--subtle-bgcolor);
+                                    padding: 15px;
+                                    box-sizing: border-box;
+                                    border-radius: 8px;
+                                    background-color: var(--subtle-bgcolor);
+                                    font-size: 16px;
+                                    color: var(--color_blackbutnotblack);
+                                    resize: vertical; 
+                                "></textarea>
+
                             </div>
                         </div>
-                        <div style="width: 100%; height: 100px; border-radius: 50px;">
-                            <div id="send_button">
-                                send message
+                        <div style="width: 20%; height: 150px; border-radius: 50px; overflow: hidden; padding: 40px; box-sizing: border-box;">
+                            <button id="send_button" style="
+                                width: 100%;
+                                height: 100%;
+                                background: linear-gradient(45deg, #3498db, #1abc9c); 
+                                color: var(--color_white);
+                                border: none;
+                                outline: none;
+                                cursor: pointer;
+                                font-size: 16px;
+                                border-radius: 10px; 
+                                padding: 15px; 
+                                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+                            ">
+                                Send Message
+                            </button>
+
                             </div>
                         </div>
                     </div>
