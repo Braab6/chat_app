@@ -12,7 +12,8 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("[INFO] sending_message");
             socket.emit("chat_message", text_input.value);
             text_input.value = "";
-
+        } else {
+            console.log("[INFO] no text input");
         }
     };
 
