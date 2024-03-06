@@ -43,6 +43,8 @@ io.on("connection", (socket) => {
 
     socket.on("register", (credentials) => {
         console.log(credentials)
+        console.log(Object.keys(accounts))
+        console.log(accounts[credentials["name"]])
         if (Object.keys(accounts).includes(accounts[credentials["name"]])) {
             console.log("user does already exist")
         } else {
