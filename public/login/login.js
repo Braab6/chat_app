@@ -8,9 +8,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const login_button = document.getElementById("login_button");
     
     login_button.onclick = function(event) {
-        console.log(username.textContent);
-        console.log(password.textContent);
-        socket.emit("login", { "name": username.textContent, "password": password.textContent });
+        console.log(username.value);
+        console.log(password.value);
+        socket.emit("login", { "name": username.value, "password": password.value });
 
         window.location.href = "https://santo-chat.northeurope.cloudapp.azure.com/chat/chat.html";
     }
