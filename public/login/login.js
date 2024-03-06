@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", function () {
     
     login_button.onclick = function(event) {
         
-        console.log(username)
-        console.log(password)
+        console.log(username);
+        console.log(password);
         socket.emit("login", { "name": username, "password": password });
         
     }
