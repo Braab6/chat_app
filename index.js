@@ -65,7 +65,7 @@ io.on("connection", (socket) => {
             const time_stamp = Date.now();
             const conversation_name = data["conversation"];
             let conversation = chats[conversation_name];
-
+            console.log(conversation);
             if (conversation["users"].includes(socket.username)) {
                 if (conversation["messages"][time_stamp] == null) {
                     conversation["messages"][time_stamp] = [];
