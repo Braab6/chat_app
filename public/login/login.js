@@ -12,6 +12,6 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(username);
         console.log(password);
         socket.emit("login", { "name": username, "password": password });
-        
+        window.location.href = "https://santo-chat.northeurope.cloudapp.azure.com/chat/chat.html";
     }
 });
