@@ -97,10 +97,10 @@ io.on("connection", (socket) => {
         io.emit("messages", output);
     });
 
-    socket.on("disconnect", () => {
+    socket.on("disconnect", (sender) => {
         if (added_user) {
             socket.broadcast.emit("user_left", {
-                "username": username,
+                "username": sender,
                 "num_users": num_users
             });
         }
