@@ -100,6 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     socket.on("user_joined", (name) => {
+        console.log("Das ist der string ->>>" + name);
         username = name;
     });
 
