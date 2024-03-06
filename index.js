@@ -48,7 +48,7 @@ io.on("connection", (socket) => {
         if (Object.keys(accounts).includes(credentials["name"])) {
             console.log("user does already exist")
         } else {
-            accounts[credentials["name"]].push(credentials["password"])
+            accounts[credentials["name"]] = credentials["password"]
             logged_in.push(credentials["name"]); // adds user to the list of online users
             console.log("user " + credentials["name"] + " connected");
             added_user = true;
