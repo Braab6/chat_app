@@ -38,8 +38,7 @@ io.on("connection", (socket) => {
                 num_users += 1;
 
                 socket.emit("user_joined", socket.username);
-            }
-            else{
+            } else {
                 socket.emit("wrong_password", "");
             }
         }

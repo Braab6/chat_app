@@ -52,13 +52,13 @@ document.addEventListener("DOMContentLoaded", function () {
         const time_ms = Date.now();
 
         if (time_ms - time_last_message > message_cooldown_ms) {
-            const message = text_input.value.trim();
+            const message = text_input.innerText.trim();
 
             if (message !== "") {
                 console.log("[INFO] sending_message");
                 socket.emit("chat_message", { "conversation": "default", "message": message });
 
-                text_input.value = "";
+                text_input.innerText = "";
                 time_last_message = time_ms;
             }
         } else {
