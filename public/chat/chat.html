@@ -22,7 +22,7 @@
         <!-- <link rel="stylesheet" href="/public/style.css"/> -->
 
         <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
-        <script src="chat.js"></script>
+        <script src="script.js"></script>
 
         <!-- Icons -->
 
@@ -209,7 +209,9 @@
 
             text-decoration: none;
             line-break: strict;
+            word-wrap: anywhere;
 
+            overflow-x: hidden;
             overflow-y: scroll;
             background: transparent;
 
@@ -223,7 +225,8 @@
             height: 100%;
 
             max-height: 200px;
-            overflow-y: scroll;
+            overflow-x: hidden;
+            overflow-y: hidden;
 
             border-radius: var(--px_max);
 
