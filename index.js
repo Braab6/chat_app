@@ -29,7 +29,6 @@ io.on("connection", (socket) => {
     console.log("user connected");
 
     socket.on("login", (credentials) => {
-        console.log(credentials)
         if (Object.keys(accounts).includes(credentials["name"])) { // checks if the user exists
             if (accounts[credentials["name"]] == credentials["password"]) { // checks if the password is correct
                 logged_in.push(credentials["name"]); // adds user to the list of online users
@@ -37,7 +36,7 @@ io.on("connection", (socket) => {
                 socket.username = credentials["name"];
                 added_user = true;
                 num_users += 1;
-
+                console.log(logged_in)
                 socket.emit("user_joined", socket.username);
             } else {
                 //socket.emit("wrong_password", null);
