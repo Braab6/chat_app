@@ -11,8 +11,6 @@ function text_input_focus(event) {
 function text_input_unfocus(event) {
     const text_input = document.getElementById("text_input");
 
-    console.log(text_input.innerText);
-
     if (text_input.innerText == null || text_input.innerText.trim() === "") {
         text_input.innerText = "message group...";
     }
@@ -52,10 +50,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (time_ms - time_last_message > message_cooldown_ms) {
             const message = text_input.innerText.trim();
+            const username = localStorage.getItem("username");
 
             if (message !== "") {
                 console.log("[INFO] sending_message");
-                socket.emit("chat_message", { "conversation": "default", "message": message });
+                socket.emit("chat_message", { "conversation": "default", "message": message, "sender": username });
 
                 text_input.innerText = "";
                 time_last_message = time_ms;
@@ -91,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
     socket.on("chat_message", (message) => {
         console.log("[INFO] received message:" + message);
 
-        const username = "username";
+        const username = message["sender"];
         const text_message = message["message"].replaceAll('\n', "<br/>");
 
         const last_child = chat_area.lastElementChild;
