@@ -89,10 +89,10 @@ document.addEventListener("DOMContentLoaded", function () {
     socket.on("chat_message", (message) => {
         console.log("[INFO] received message:" + message);
 
-        const username = message["sender"];
+        const sender = message["sender"];
         const text_message = message["message"];
 
-        const new_child = "<test>" + username + "</test><test>:</test><test>" + text_message + "</test>"
+        const new_child = "<test>" + sender + "</test><test>:</test><test>" + text_message + "</test>"
 
         const item = document.createElement("message");
         item.innerHTML = new_child;
@@ -101,7 +101,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     socket.on("user_joined", (name) => {
         username = name;
-        console.log(username)
     });
 
     console.log("[INFO] done initializing app");
