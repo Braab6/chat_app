@@ -41,7 +41,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Globals
 
     let time_last_message = 0;
-    let username;
 
     // Functions
 
@@ -52,6 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const message = text_input.innerText.trim();
 
             if (message !== "") {
+                let username = localStorage.getItem("username");
                 console.log("[INFO] sending_message by " + username);
                 socket.emit("chat_message", { "conversation": "default", "message": message, "sender": username });
 
@@ -101,7 +101,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     socket.on("user_joined", (name) => {
         console.log(name);
-        username = name;
     });
 
     console.log("[INFO] done initializing app");
