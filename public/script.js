@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (currentTime - lastMessageTime > messageCooldown) {
             if (text_input.value.trim() !== "") {
                 console.log("[INFO] sending_message");
-                socket.emit("chat_message", text_input.value);
+                socket.emit("chat_message", { "conversation": "default", "message": text_input.value });
                 text_input.value = "";
                 lastMessageTime = currentTime;
             }

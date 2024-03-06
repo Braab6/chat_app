@@ -44,11 +44,11 @@ io.on("connection", (socket) => {
         accounts[user["name"]].push(user["password"]) // registers new user
     });
 
+    // the given chat must be a json consisting of the name and the users of a conversation
     socket.on("new_chat", (chat) => {
         console.log("chat " + chat["name"] + " created");
-        // the given chat MUST be a json consisting of the name and the users of a conversation
-
-        let conversation = {};
+        
+        const conversation = {};
         conversation["users"] = []; // list of users who can access the chat
         conversation["messages"] = {}; // json of sent messages in the corresponding conversation with timestamp as key
         // value of messages is a json consisting of the sender and the message
@@ -56,8 +56,8 @@ io.on("connection", (socket) => {
         chats[chat["name"]].push(conversation); // json of all the existing conversation with the conversation-name as key
     });
     
+    // data must be a json consisting of the message and the conversation where the sender is chatting in
     socket.on("chat_message", (data) => {
-        // data MUST be a json consisting of the message and the conversation where the sender is chatting in
         console.log("received chat message by " + socket.username)
 
         if (data["message"] != "") {
@@ -65,7 +65,7 @@ io.on("connection", (socket) => {
             const time_stamp = Date.now();
             const conversation_name = data["conversation"];
             let conversation = chats[conversation_name];
-            console.log(conversation);
+            
             if (conversation["users"].includes(socket.username)) {
                 if (conversation["messages"][time_stamp] == null) {
                     conversation["messages"][time_stamp] = [];
