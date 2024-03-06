@@ -34,11 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const navigation = document.getElementById("navigation");
     const chat_content = document.getElementById("chat_content");
 
-    try {
-        const socket = io();
-    } catch (exception) {
-        console.log("[FATAL] couldn't create socket.io");
-    }
+    const socket = io();
 
     const message_cooldown_ms = 1000;
 
@@ -69,10 +65,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // Event Handlers
 
     send_button.onclick = function(event) {
-        if (text_input.value != null) {
+        if (text_input.innerText == null || text_input.innerText.trim() === "") {
             console.log("[INFO] sending_message");
-            socket.emit("chat_message", text_input.value);
-            text_input.value = "";
+            socket.emit("chat_message", text_input.innerText);
+            text_input.innerText = "";
         }
     };
 
@@ -96,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const text_message = message["message"];
 
         const new_child = "<test>" + username + "</test><test>:</test><test>" + text_message + "</test>"
-        
+
         const item = document.createElement("message");
         item.innerHTML = new_child;
         chat_content.appendChild(item);
