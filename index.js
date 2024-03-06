@@ -35,7 +35,7 @@ io.on("connection", (socket) => {
                 console.log("user " + credentials["name"] + " connected");
                 added_user = true;
                 num_users += 1;
-                socket.emit("user_joined", credentials["name"]);
+                io.emit("user_joined", credentials["name"]);
             } else {
                 //socket.emit("wrong_password", null);
             }
