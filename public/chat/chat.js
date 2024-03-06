@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const message = text_input.innerText.trim();
 
             if (message !== "") {
-                console.log("[INFO] sending_message");
+                console.log("[INFO] sending_message by " + username);
                 socket.emit("chat_message", { "conversation": "default", "message": message, "sender": username });
 
                 text_input.innerText = "";
@@ -101,6 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     socket.on("user_joined", (name) => {
         username = name;
+        console.log(username)
     });
 
     console.log("[INFO] done initializing app");
