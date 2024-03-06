@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const dark_mode_toggle = document.getElementById("dark_mode_toggle");
 
     const navigation = document.getElementById("navigation");
-    const chat_content = document.getElementById("chat_content");
+    const chat_area = document.getElementById("chat_area");
 
     const socket = io();
 
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const item = document.createElement("message");
         item.innerHTML = new_child;
-        chat_content.appendChild(item);
+        chat_area.appendChild(item);
     });
 
     console.log("[INFO] done initializing app");
