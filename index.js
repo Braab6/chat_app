@@ -36,13 +36,21 @@ io.on("connection", (socket) => {
                 num_users += 1;
                 socket.emit("authenticated", credentials["name"]);
             } else {
-                //socket.emit("wrong_password", null);
+                socket.emit("wrong_password", null);
             }
         }
     });
 
     socket.on("register", (credentials) => {
-        accounts[credentials["name"]].push(credentials["password"]) // registers new user
+
+        if (accounts[credentials["name"]])
+        accounts[credentials["name"]].push(credentials["password"])
+        
+
+        logged_in.push(credentials["name"]); // adds user to the list of online users
+        console.log("user " + credentials["name"] + " connected");
+        added_user = true;
+        num_users += 1;
         socket.emit("authenticated", credentials["name"]);
     });
 
