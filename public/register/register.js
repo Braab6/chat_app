@@ -15,8 +15,9 @@ document.addEventListener("DOMContentLoaded", function () {
   })
     
     register_button.onclick = function(event) {
-        console.log("knopf ist gedrückt worden")
+        console.log("pressed")
         if (password === confirm_password) {
+            console.log("Password equal")
             socket.emit("register", { "name": username.value, "password": password.value });
         }
     }

@@ -42,16 +42,16 @@ io.on("connection", (socket) => {
     });
 
     socket.on("register", (credentials) => {
-
-        if (accounts[credentials["name"]])
-        accounts[credentials["name"]].push(credentials["password"])
-        
-
-        logged_in.push(credentials["name"]); // adds user to the list of online users
-        console.log("user " + credentials["name"] + " connected");
-        added_user = true;
-        num_users += 1;
-        socket.emit("authenticated", credentials["name"]);
+        if (Object.keys(accounts).includes(accounts[credentials["name"]])) {
+            console.log("user does already exist")
+        } else {
+            accounts[credentials["name"]].push(credentials["password"])
+            logged_in.push(credentials["name"]); // adds user to the list of online users
+            console.log("user " + credentials["name"] + " connected");
+            added_user = true;
+            num_users += 1;
+            socket.emit("authenticated", credentials["name"]);
+        }
     });
 
     // the given chat must be a json consisting of the name and the users of a conversation
