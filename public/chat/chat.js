@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const socket = io();
 
-    const message_cooldown_ms = 1000;
+    const message_cooldown_ms = 500;
 
     // Globals
 
@@ -97,10 +97,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const item = document.createElement("message");
         item.innerHTML = new_child;
         chat_area.appendChild(item);
-    });
-
-    socket.on("user_joined", (name) => {
-        console.log(name);
     });
 
     console.log("[INFO] done initializing app");
