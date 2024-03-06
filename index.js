@@ -20,7 +20,7 @@ const io = socketIo(server);
 app.use(express.static(__dirname + "/public",  { dotfiles: "allow" }));
 
 let num_users = 0; // the number of active users
-let chats = { "default": { "users": ["@everyone", "username"], "messages": {} } };
+let chats = { "default": { "users": ["@everyone", "default"], "messages": {} } };
 let accounts = { "default": "12345678" }; //name / password
 let logged_in = [];
 
