@@ -28,24 +28,25 @@ io.on("connection", (socket) => {
     let added_user = false;
     console.log("user connected");
 
-    socket.on("login", (user) => {
-        if (Object.keys(accounts).includes(user["name"])) { // checks if the user exists
-            if (accounts[user["name"]] == user["password"]) { // checks if the password is correct
-                logged_in.push(user["name"]); // adds user to the list of online users
-                console.log("user " + user["name"] + " connected");
-                socket.username = user["name"];
+    socket.on("login", (credentials) => {
+        console.log(credentials)
+        if (Object.keys(accounts).includes(credentials["name"])) { // checks if the user exists
+            if (accounts[credentials["name"]] == credentials["password"]) { // checks if the password is correct
+                logged_in.push(credentials["name"]); // adds user to the list of online users
+                console.log("user " + credentials["name"] + " connected");
+                socket.username = credentials["name"];
                 added_user = true;
                 num_users += 1;
 
                 socket.emit("user_joined", socket.username);
             } else {
-                socket.emit("wrong_password", "");
+                //socket.emit("wrong_password", null);
             }
         }
     });
 
-    socket.on("register", (user) => {
-        accounts[user["name"]].push(user["password"]) // registers new user
+    socket.on("register", (credentials) => {
+        accounts[credentials["name"]].push(credentials["password"]) // registers new user
     });
 
     // the given chat must be a json consisting of the name and the users of a conversation
