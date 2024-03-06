@@ -26,7 +26,6 @@ let logged_in = [];
 
 io.on("connection", (socket) => {
     let added_user = false;
-    console.log("user connected");
 
     socket.on("login", (credentials) => {
         if (Object.keys(accounts).includes(credentials["name"])) { // checks if the user exists
