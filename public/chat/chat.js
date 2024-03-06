@@ -26,7 +26,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Constants
 
     const text_input = document.getElementById("text_input");
-    const send_button = document.getElementById("send_button");
 
     const expand_toggle = document.getElementById("expand_toggle");
     const dark_mode_toggle = document.getElementById("dark_mode_toggle");
@@ -34,13 +33,17 @@ document.addEventListener("DOMContentLoaded", function () {
     const navigation = document.getElementById("navigation");
     const chat_area = document.getElementById("chat_area");
 
+    const root = document.querySelector(":root");
+    const root_variables = getComputedStyle(root);
+
     const socket = io();
 
-    const message_cooldown_ms = 500;
+    const message_cooldown_ms = 1000;
 
     // Globals
 
     let time_last_message = 0;
+    let last_message_username = null;
 
     // Functions
 
@@ -51,9 +54,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const message = text_input.innerText.trim();
 
             if (message !== "") {
-                let username = localStorage.getItem("username");
-                console.log("[INFO] sending_message by " + username);
-                socket.emit("chat_message", { "conversation": "default", "message": message, "sender": username });
+                console.log("[INFO] sending_message");
+                socket.emit("chat_message", { "conversation": "default", "message": message });
 
                 text_input.innerText = "";
                 time_last_message = time_ms;
@@ -65,18 +67,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Event Handlers
 
-    send_button.onclick = function(event) {
-        if (text_input.innerText == null || text_input.innerText.trim() === "") {
-            console.log("[INFO] sending_message");
-            socket.emit("chat_message", text_input.innerText);
-            text_input.innerText = "";
+    document.onkeydown = function(event) {
+        if ((document.activeElement.id === text_input.id || document.activeElement.tagName === "BODY") && event.key === "Enter" && !event.shiftKey) {
+            event.preventDefault();
+            send_message();
         }
     };
 
-    document.onkeydown = function(event) {
-        if (document.activeElement.id === text_input.id && event.key === "Enter" && event.shiftKey){
-            event.preventDefault();
-            send_message();
+    dark_mode_toggle.onchange = function(event) {
+        if (this.checked) {
+            root.style.setProperty("--background_color", "#FFFFFF");
+        } else {
+            root.style.setProperty("--background_color", "#000000");
         }
     };
 
@@ -89,14 +91,33 @@ document.addEventListener("DOMContentLoaded", function () {
     socket.on("chat_message", (message) => {
         console.log("[INFO] received message:" + message);
 
-        const sender = message["sender"];
-        const text_message = message["message"];
+        const username = "username";
+        const text_message = message["message"].replaceAll('\n', "<br/>");
 
-        const new_child = "<test>" + sender + "</test><test>:</test><test>" + text_message + "</test>"
+        const last_child = chat_area.lastElementChild;
+        let last_child_tag_closed = false;
+        let html_message;
 
-        const item = document.createElement("message");
-        item.innerHTML = new_child;
+        if (last_child != null && last_child.outerHTML.includes("<div class=\"user_message\">") && last_child.outerHTML.includes("</div>")) {
+            last_child_tag_closed = true;
+        }
+
+        if (username === last_message_username && last_child_tag_closed) {
+            html_message = last_child.innerHTML + "<div class=\"message\"><span>" + text_message + "</span></div>"
+            chat_area.removeChild(last_child);
+        } else {
+            html_message = "<div class=\"message\"><span>" + username + "</span><span>:</span><span>" + text_message + "</span></span></div>"
+        }
+
+        const item = document.createElement("div");
+        item.className = "user_message";
+        item.innerHTML = html_message;
+
         chat_area.appendChild(item);
+
+        text_input.innerText = "";
+
+        last_message_username = username;
     });
 
     console.log("[INFO] done initializing app");

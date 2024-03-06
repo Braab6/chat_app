@@ -119,6 +119,7 @@
             flex-direction: row;
             align-items: flex-start;
             place-items: center;
+            gap: 0 15px;
 
             background-color: var(--color_white);
 
@@ -198,6 +199,38 @@
             transform: scale(-1, -1) rotate(-90deg) translateY(5px);
         }
 
+        #chat_area {
+            width: 100%;
+            height: 100%;
+
+            overflow-x: hidden;
+            overflow-y: scroll;
+
+            scrollbar-width: thin;
+
+            scroll-snap-type: y mandatory;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            place-items: flex-start;
+
+            background-color: var(--color_green);
+        }
+
+        #input_area {
+            width: 100%;
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            place-items: flex-start;
+            justify-content: space-between;
+            gap: 15px 15px;
+
+            background-color: var(--color_yellow);
+        }
+
         #text_input {
             width: 100%;
 
@@ -228,7 +261,7 @@
             overflow-x: hidden;
             overflow-y: hidden;
 
-            border-radius: var(--px_max);
+            border-radius: 25px;
 
             display: flex;
             flex-direction: column;
@@ -238,32 +271,33 @@
             background-color: var(--color_red);
         }
 
-        .quick_menu_container {
+        .user_message {
+            width: 100%;
+
+            flex-wrap: wrap;
+
             display: flex;
             flex-direction: row;
-            gap: 15px 15px;
+            gap: 0 15px;
         }
 
-        .quick_menu_item {
-            aspect-ratio: 1/1;
-            height: 100%;
-
-            border-radius: var(--px_max);
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-
-            background-color: var(--color_white);
-        }
-
-        message {
+        .message {
+            margin-top: 5px;
+            margin-bottom: 5px;
             padding: 10px 15px;
-            border-radius: var(--px_max);
+            border-radius: 22px;
 
             width: fit-content;
-            height: auto;
+            height: fit-content;
+
+            text-decoration: none;
+            line-break: strict;
+            word-wrap: anywhere;
+
+            overflow-x: hidden;
+            overflow-y: hidden;
+
+            scroll-snap-align: end;
 
             display: flex;
             flex-direction: row;
@@ -277,43 +311,32 @@
             font-size: 16px;
         }
 
-        message + test {
+        .message:nth-child(1) {
             font-weight: bolder;
         }
     </style>
 
-    <body translate="no" style="background-color: var(--background_color)">
-        <div style="padding: 25px 25px; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; place-items: flex-start; gap: 15px 15px;">
-            <div id="navigation" class="navigation">
-                <div style="display: inline-flex; flex-direction: row; align-items: flex-start; place-items: center; column-gap: 15px;">
+    <body translate="no" style="background-color: var(--background_color); transition: all 1s;">
+        <div style="padding: 25px 25px; width: 100%; height: 100%; overflow-x: hidden; overflow-y: hidden; display: flex; flex-direction: column; align-items: center; place-items: flex-start; gap: 15px 15px;">
+            <div style="width: 100%; display: flex; flex-direction: row; justify-content: space-between;">
+                <div id="menu_navigation" class="navigation">
                     <input id="dark_mode_toggle" class="dark_mode" type="checkbox">
                     <div style="width: 2px; height: 40px; border-radius: 2px; background-color: #263238;"></div>
                     <input id="expand_toggle" class="toggle" type="checkbox"><label for="expand_toggle" class="expand"><span class="material-symbols-outlined outline_symbol">expand_less</span></label>
                 </div>
+                <div id="profile_navigation" class="navigation">
+                    <span class="material-symbols-outlined fill_symbol">person</span>
+                    <div style="width: 2px; height: 40px; border-radius: 2px; background-color: #263238;"></div>
+                    <span class="material-symbols-outlined fill_symbol" style="font-size: 36px;">chat</span>
+                    <span class="material-symbols-outlined fill_symbol" style="font-size: 38px;">sensor_door</span>
+                </div>
             </div>
-            <div style="padding: 15px 15px; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; place-items: flex-start; gap: 5px 5px; background-color: var(--color_green);">
-                <!--
-                <message>
-                    <test>username</test>
-                    <test>:</test>
-                    <test>message</test>
-                </message>
-                -->
+            <div id="chat_area">
+
             </div>
-            <div style="width: 100%; height: fit-content; block-size: fit-content; display: flex; flex-direction: row; align-items: center; place-items: flex-start; justify-content: space-around; gap: 15px 15px; background-color: var(--color_yellow);">
+            <div id="input_area">
                 <div class="message_field">
                     <div id="text_input" contenteditable="true" onfocus="text_input_focus()" onfocusout="text_input_unfocus()">message group...</div>
-                </div>
-                <div class="quick_menu_container">
-                    <div id="send_button" class="quick_menu_item">
-                        <span class="material-symbols-outlined outline_symbol">apps</span>
-                    </div>
-                    <div id="add_file_button" class="quick_menu_item">
-                        <span class="material-symbols-outlined fill_symbol">add_circle</span>
-                    </div>
-                    <div id="menu_button" class="quick_menu_item">
-                        <span class="material-symbols-outlined outline_symbol">apps</span>
-                    </div>
                 </div>
             </div>
         </div>
