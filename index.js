@@ -43,6 +43,7 @@ io.on("connection", (socket) => {
 
     socket.on("register", (credentials) => {
         accounts[credentials["name"]].push(credentials["password"]) // registers new user
+        socket.emit("authenticated", credentials["name"]);
     });
 
     // the given chat must be a json consisting of the name and the users of a conversation

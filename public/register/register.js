@@ -6,16 +6,19 @@ document.addEventListener("DOMContentLoaded", function () {
     const username = document.getElementById("username");
     const password = document.getElementById("password");
     const confirm_password = document.getElementById("confirm_password");
-    const click = document.getElementById("click");
-    
-    login_button.onclick = function(event) {
-        if (password == confirm_password) {
-            var username = document.getElementById("username").value;
-            var password = document.getElementById("password").value;
-            var confirm_password = document.getElementById("confirm-password").value;
-            var register_button = document.getElementById("register_button").value;
+    const register_button = document.getElementById("register_button");
 
-            socket.emit("register", { "name": username, "password": password });
+    socket.on("authenticated", (p) => {
+    localStorage.setItem("username", p);
+    console.log("Authenticated with username " + p);
+    window.location.href = "https://santo-chat.northeurope.cloudapp.azure.com/chat/chat.html";
+
+  })
+    
+    register_button.onclick = function(event) {
+        if (password == confirm_password) {
+            socket.emit("register", { "name": username.value, "password": password.value });
+            socket.emit("login", { "name": username.value, "password": password.value });
         }
     }
 });
