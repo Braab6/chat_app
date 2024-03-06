@@ -1,42 +1,87 @@
-document.addEventListener("DOMContentLoaded", function () {
-    console.log("[INFO] initializing app");
+// HTML exposed functions
 
-    const socket = io();
+function text_input_focus(event) {
+    const text_input = document.getElementById("text_input");
+
+    if (text_input.innerText === "message group...") {
+        text_input.innerText = "";
+    }
+}
+
+function text_input_unfocus(event) {
+    const text_input = document.getElementById("text_input");
+
+    console.log(text_input.innerText);
+
+    if (text_input.innerText == null || text_input.innerText.trim() === "") {
+        text_input.innerText = "message group...";
+    }
+}
+
+// on HTML loaded
+
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("[INFO] initializing app...");
+
+    // Constants
 
     const text_input = document.getElementById("text_input");
     const send_button = document.getElementById("send_button");
+
+    const expand_toggle = document.getElementById("expand_toggle");
+    const dark_mode_toggle = document.getElementById("dark_mode_toggle");
+
+    const navigation = document.getElementById("navigation");
     const chat_content = document.getElementById("chat_content");
-    const extra = [ "sagt", "schreit" , "ruft", "flüstert", "schreibt", "betont", "kommentiert", "erwiedert", "verbreitet", "haucht" ];
 
-    socket.emit("login", { "name": "default", "password": "12345678" });
+    try {
+        const socket = io();
+    } catch (exception) {
+        console.log("[FATAL] couldn't create socket.io");
+    }
 
-    let lastMessageTime = 0;
-    const messageCooldown = 500;
+    const message_cooldown_ms = 1000;
 
-    send_button.onclick = function(event) {
-       sendMessage();
-    };
+    // Globals
 
-    text_input.addEventListener("keydown", function(event){
-        if (event.key === "Enter" && event.shiftKey){
-            event.preventDefault();
-            send_button.click();
-        }
-    });
+    let time_last_message = 0;
 
-    function sendMessage() {
-        const currentTime = Date.now();
-        if (currentTime - lastMessageTime > messageCooldown) {
-            if (text_input.value.trim() !== "") {
+    // Functions
+
+    function send_message() {
+        const time_ms = Date.now();
+
+        if (time_ms - time_last_message > message_cooldown_ms) {
+            const message = text_input.value.trim();
+
+            if (message !== "") {
                 console.log("[INFO] sending_message");
-                socket.emit("chat_message", { "conversation": "default", "message": text_input.value });
+                socket.emit("chat_message", { "conversation": "default", "message": message });
+
                 text_input.value = "";
-                lastMessageTime = currentTime;
+                time_last_message = time_ms;
             }
         } else {
-            console.log("[INFO] Message cooldown in effect. Please wait before sending another message.");
+            console.log("[INFO] please wait before sending another message");
         }
     }
+
+    // Event Handlers
+
+    send_button.onclick = function(event) {
+        if (text_input.value != null) {
+            console.log("[INFO] sending_message");
+            socket.emit("chat_message", text_input.value);
+            text_input.value = "";
+        }
+    };
+
+    document.onkeydown = function(event) {
+        if (document.activeElement.id === text_input.id && event.key === "Enter" && event.shiftKey){
+            event.preventDefault();
+            send_message();
+        }
+    };
 
     socket.on("connect_error", (error) => {
         console.log(error.message);
@@ -45,13 +90,17 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     socket.on("chat_message", (message) => {
-        console.log("[INFO] received message by " + message["sender"] + " content: " + message["message"]);
-        const item = document.createElement("li");
+        console.log("[INFO] received message:" + message);
 
-        const count_extra = 10;
-        const random_extra = Math.floor(Math.random() * count_extra);
+        const username = message["sender"];
+        const text_message = message["message"];
 
-        item.textContent = message["sender"] + " " + extra[random_extra] + ": " + message["message"];
+        const new_child = "<test>" + username + "</test><test>:</test><test>" + text_message + "</test>"
+        
+        const item = document.createElement("message");
+        item.innerHTML = new_child;
         chat_content.appendChild(item);
     });
+
+    console.log("[INFO] done initializing app");
 });

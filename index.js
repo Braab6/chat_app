@@ -36,6 +36,11 @@ io.on("connection", (socket) => {
                 socket.username = user["name"];
                 added_user = true;
                 num_users += 1;
+
+                socket.emit("user_joined", socket.username);
+            }
+            else{
+                socket.emit("wrong_password", "");
             }
         }
     });

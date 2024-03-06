@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login Page</title>
+    <link rel="icon" href="https://static-00.iconduck.com/assets.00/chat-icon-1024x1024-o88plv3x.png" type="image/chat-bubble">
+    <script src="login.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .outer-box {
+            border: 30px solid #87CEEB; /* Light blue border color */
+            display: inline-block;
+            border-radius: 8px;
+            overflow: hidden;
+            border-inline-color: rgb(218, 212, 212);
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 3px solid #a1a5ab;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 12px;
+            border: 2px solid black;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    
+</head>
+<body>
+
+    <div class="outer-box">
+        <form id="loginForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="button" onclick="login()">Login</button>
+        </form>
+    </div>
+
+    <script>
+        function login() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var website_link = "https://santo-chat.northeurope.cloudapp.azure.com/";
+
+            // Simple validation (in a real-world scenario, you'd use a server for authentication)
+            if (username === "demo" && password === "password") {
+                window.location.href = website_link;
+            } else {
+                alert("Invalid username or password. Please try again.");
+            }
+        }
+    </script>
+</body>
+</html>

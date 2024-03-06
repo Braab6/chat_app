@@ -17,14 +17,16 @@
         <meta property="og:url" content="unset"/>
 
         <link rel="icon" type="image/x-icon" href="unset"/>
+        <title>Chat App</title>
 
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
         <!-- <link rel="stylesheet" href="/public/style.css"/> -->
 
         <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
         <script src="script.js"></script>
 
-        <title>Chat App</title>
+        <!-- Icons -->
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
     </head>
 
     <style>
@@ -46,14 +48,11 @@
             --color_green: #96C378;
             --color_yellow: #E6BE7D;
             --color_red: #E16E78;
-            --subtle-bgcolor: #f9f9f9;
 
             --color_dark_blue: #406F99;
-            --color_blue2: #7288DA;
             --color_dark_green: #76995F;
             --color_dark_yellow: #997e53;
             --color_dark_red: #994B51;
-            --color_blackbutnotblack: #333;
 
             --color_black: #283237;
             --color_white: #F4F4F4;
@@ -62,6 +61,8 @@
             --foreground_color: var(--color_white);
 
             --shadow_color: #0000001A;
+
+            --px_max: 65536px;
 
             scrollbar-gutter: stable;
             scrollbar-width: thin;
@@ -99,314 +100,216 @@
 
             font-family: "JetBrains Mono", sans-serif;
         }
-        /* Input Buttons */
 
-        #text_input {
-            width: 100%;
-            height: 100%;
+        /* Tags */
 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-
-            background-color: var(--color_red);
-
-            font-family: "JetBrains Mono", sans-serif;
-        }
-
-        #send_button {
-            width: 100%;
-            height: 100%;
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-
-            background-color: var(--color_red);
-            font-family: "JetBrains Mono", sans-serif;
-        }
-
-        /* Layers */
-
-        #container {
-            padding: 0 0;
-
-            width: 100%;
-            height: 100%;
-
-            scroll-snap-type: y mandatory;
-            scroll-snap-align: start;
-
-            overscroll-behavior: none;
-            overflow-x: hidden;
-        }
-
-        #navigation {
-            padding: 25px 25px;
-
-            width: 100%;
-            height: 100%;
-
-            position: fixed;
-
-            flex-direction: row;
-            align-items: center;
-            text-align: center;
-            place-items: flex-start;
-
-            pointer-events: none;
-        }
-
-        #lower_navigation {
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            gap: 0 25px;
-        }
-
-        #main_container {
-            width: 100%;
-            height: 100%;
-
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 25px;
-        }
-
-        #chat_content {
-            flex: 3;
-            width: 80%;
-            height: 100%;
-        }
-
-        #send_message_container {
-            transform: translateZ(0) scale(1);
-
-            width: 100%;
-            height: 100%;
-
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            text-align: center;
-
-            bottom: 0;
-
-            place-items: center;
-        }
-
-        /* Utility Classes */
-
-        .no_select {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        .no_anim {
-            -webkit-animation: none;
-            -moz-animation: none;
-            animation: none;
-            background-color: var(--color_black);
-        }
-
-        .bubble {
-            box-shadow: 0 10px 10px var(--shadow_color);
+        li {
+            text-decoration: none;
+            list-style-type: none;
         }
 
         /* Navigation */
 
-        .icon_wrapper .icon {
-            box-shadow: 0 10px 10px var(--shadow_color);
-            background-color: var(--color_white);
-            color: var(--color_black);
+        .navigation {
+            padding: 5px 10px;
 
-            position: relative;
-            border-radius: 50px;
-
-            width: 50px;
-            height: 50px;
-            margin: 10px;
-            font-size: 18px;
-
-            display: flex;
-            flex-direction: column;
-            text-align: center;
-            align-items: center;
-            justify-content: center;
-
-            cursor: pointer;
-            pointer-events: visibleFill;
-
-            transition: all 0.5s ease 0.05s;
-            -webkit-transition: all 0.5s ease 0.05s;
-        }
-
-        .icon_container {
-            transform: translateZ(0) scale(1);
-
-            width: 550px;
-            height: 70px;
-            border-radius: 70px;
+            border-radius: var(--px_max);
 
             display: flex;
             flex-direction: row;
-            align-items: center;
-            text-align: center;
-
+            align-items: flex-start;
             place-items: center;
 
             background-color: var(--color_white);
+
+            transition: width 500ms;
         }
 
-        .icon_wrapper .icon:hover {
-            width: 200px;
-            align-items: normal;
-
-            transition: all 0.25s ease 0s;
-            -webkit-transition: all 0.25s ease 0s;
+        #users {
+            display: none;
         }
 
-        .icon_wrapper .icon:hover span {
-            text-shadow: 0 -1px 0 var(--shadow_color);
+        /* Symbols */
 
-            transition: all 0.5s ease 0.05s;
-            -webkit-transition: all 0.5s ease 0.05s;
+        .outline_symbol {
+            pointer-events: none;
+            user-select: none;
+
+            font-size: 44px;
+            text-decoration: none;
+
+            font-variation-settings: "FILL" 0, "wght" 250, "GRAD" 0, "opsz" 24;
         }
 
-        .icon_wrapper .discord:hover {
-            background-color: var(--color_blue);
-            color: var(--color_white);
-        }
+        .fill_symbol {
+            pointer-events: none;
+            user-select: none;
 
-        .icon_wrapper .github:hover {
-            background-color: #454545;
-            color: var(--color_white);
+            font-size: 44px;
+            text-decoration: none;
+
+            font-variation-settings: "FILL" 1, "wght" 250, "GRAD" 0, "opsz" 24;
         }
 
         /* Dark Mode Button */
 
-        .toggle {
+        .dark_mode {
             --size: 40px;
 
             appearance: none;
             outline: none;
             cursor: pointer;
-            
+
             width: var(--size);
             height: var(--size);
+
             box-shadow: inset calc(var(--size) * 0.33) calc(var(--size) * -0.25) 0;
             border-radius: 100px;
-            color: hsl(240, 100%, 95%);
-            
+            color: #97D1DE; /* TODO: add to vars */
+
             transition: all 500ms;
         }
 
-        .toggle:checked {
-            --ray-size: calc(var(--size) * -0.5);
-            --offset-orthogonal: calc(var(--size) * 0.65);
-            --offset-diagonal: calc(var(--size) * 0.45);
-
+        .dark_mode:checked {
             transform: scale(0.80);
-            color: hsl(40, 100%, 50%);
+
             box-shadow: inset 0 0 0 var(--size);
+            color: #FFAA00;
         }
 
-        body {
+        /* User Toggle Button */
+
+        .expand {
+            outline: none;
+            cursor: pointer;
+
+            width: var(--size);
+            height: var(--size);
+
+            transition: all 500ms;
+            transform: scale(1, 1) rotate(-90deg);
+        }
+
+        .toggle {
+            display: none;
+        }
+
+        .toggle:checked + .expand {
+            transform: scale(-1, -1) rotate(-90deg) translateY(5px);
+        }
+
+        #text_input {
+            width: 100%;
+
+            outline: none;
+
+            cursor: text;
+
+            display: inline-block;
+
+            text-decoration: none;
+            line-break: strict;
+
+            overflow-y: scroll;
+            background: transparent;
+
+            font-size: 20px;
+        }
+
+        .message_field {
+            padding: 10px 25px;
+
+            width: 100%;
+            height: 100%;
+
+            max-height: 200px;
+            overflow-y: scroll;
+
+            border-radius: var(--px_max);
+
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+
+            background-color: var(--color_red);
+        }
+
+        .quick_menu_container {
+            display: flex;
+            flex-direction: row;
+            gap: 15px 15px;
+        }
+
+        .quick_menu_item {
+            aspect-ratio: 1/1;
+            height: 100%;
+
+            border-radius: var(--px_max);
+
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
+
+            background-color: var(--color_white);
         }
 
-        .background {
-            --bg: hsl(240, 100%, 10%);
-            background: var(--bg);
-            position: fixed;
-            height: 100vh;
-            width: 100vw;
-            transition: background 500ms;
+        message {
+            padding: 10px 15px;
+            border-radius: var(--px_max);
+
+            width: fit-content;
+            height: auto;
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            place-items: flex-start;
+            gap: 5px 5px;
+
+            background-color: var(--color_red);
+
+            font-weight: normal;
+            font-size: 16px;
         }
 
-        .toggle {
-            z-index: 1;
-        }
-
-        .title {
-            --color: hsl(240, 100%, 95%);
-            color: var(--color);
-            z-index: 1;
-            cursor: pointer;
-            display: block;
-            padding: 20px 0 0;
-            transition: color 500ms;
+        message + test {
+            font-weight: bolder;
         }
     </style>
 
-    <body translate="no">
-        <div id="container">
-            <div id="navigation" class="bubble">
-                <div class="icon_container icon_wrapper">
-                    <div class="icon"><input id="toggle" class="toggle" type="checkbox"></div>
-                    <a href="https://github.com/cally72jhb/vector-addon" target="_blank" class="icon github"><span><i class="fab fa-github"></i></span></a>
-                    <a href="https://discord.gg/A3nYgbKeXR" target="_blank" class="icon discord">
-                        <i class="fa-solid fa-user"></i>
-                    </a>
+    <body translate="no" style="background-color: var(--background_color)">
+        <div style="padding: 25px 25px; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; place-items: flex-start; gap: 15px 15px;">
+            <div id="navigation" class="navigation">
+                <div style="display: inline-flex; flex-direction: row; align-items: flex-start; place-items: center; column-gap: 15px;">
+                    <input id="dark_mode_toggle" class="dark_mode" type="checkbox">
+                    <div style="width: 2px; height: 40px; border-radius: 2px; background-color: #263238;"></div>
+                    <input id="expand_toggle" class="toggle" type="checkbox"><label for="expand_toggle" class="expand"><span class="material-symbols-outlined outline_symbol">expand_less</span></label>
                 </div>
             </div>
-
-            <div class="chat_content">
-                
-
+            <div style="padding: 15px 15px; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; place-items: flex-start; gap: 5px 5px; background-color: var(--color_green);">
+                <!--
+                <message>
+                    <test>username</test>
+                    <test>:</test>
+                    <test>message</test>
+                </message>
+                -->
             </div>
-
-            <div style="width: 100%; height: 100%;">
-                <div id="main_container">
-                    <div id="chat_content" style="background-color: var(--color_green);">
-                       
+            <div style="width: 100%; height: fit-content; block-size: fit-content; display: flex; flex-direction: row; align-items: center; place-items: flex-start; justify-content: space-around; gap: 15px 15px; background-color: var(--color_yellow);">
+                <div class="message_field">
+                    <div id="text_input" contenteditable="true" onfocus="text_input_focus()" onfocusout="text_input_unfocus()">message group...</div>
+                </div>
+                <div class="quick_menu_container">
+                    <div id="send_button" class="quick_menu_item">
+                        <span class="material-symbols-outlined outline_symbol">apps</span>
                     </div>
-                    <div id="lower_navigation" style="background-color: #6969698d; height: 100px;">
-                        <div style="width: 100%; height: 80px; border-radius: 50px; box-sizing: border-box;">
-                            <div>
-                                <textarea id="text_input" placeholder="Type message here..." style="
-                                    width: 100%;
-                                    height: 80px;
-                                    border: 1px solid var(--subtle-bgcolor);
-                                    padding: 15px;
-                                    box-sizing: border-box;
-                                    border-radius: 8px;
-                                    font-size: 16px;
-                                    color: var(--color_blackbutnotblack);
-                                    resize: vertical; 
-                                    margin-top: 10px;
-                                    margin-left: 10px;
-                                    background-color: #d4d4d4;
-                                "></textarea>
-                            </div>
-                        </div>
-                        <div style="width: 20%; height: 100px; border-radius: 50px; overflow: hidden; padding: 10px; box-sizing: border-box;">
-                            <button id="send_button" style="
-                                width: 100%;
-                                height: 100%;
-                                background: linear-gradient(45deg, #3498db, #1abc9c); 
-                                color: var(--color_white);
-                                border: none;
-                                outline: none;
-                                cursor: pointer;
-                                font-size: 16px;
-                                border-radius: 10px; 
-                                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
-                            ">
-                                Send Message
-                            </button>
-                        
-                        </div>
+                    <div id="add_file_button" class="quick_menu_item">
+                        <span class="material-symbols-outlined fill_symbol">add_circle</span>
+                    </div>
+                    <div id="menu_button" class="quick_menu_item">
+                        <span class="material-symbols-outlined outline_symbol">apps</span>
                     </div>
                 </div>
             </div>
