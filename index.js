@@ -27,18 +27,15 @@ let logged_in = [];
 io.on("connection", (socket) => {
     let added_user = false;
     console.log("user connected");
-    let username;
 
     socket.on("login", (credentials) => {
         if (Object.keys(accounts).includes(credentials["name"])) { // checks if the user exists
             if (accounts[credentials["name"]] == credentials["password"]) { // checks if the password is correct
                 logged_in.push(credentials["name"]); // adds user to the list of online users
                 console.log("user " + credentials["name"] + " connected");
-                username = credentials["name"];
                 added_user = true;
                 num_users += 1;
-                console.log(username)
-                socket.emit("user_joined", username);
+                socket.emit("user_joined", credentials["name"]);
             } else {
                 //socket.emit("wrong_password", null);
             }
@@ -63,15 +60,15 @@ io.on("connection", (socket) => {
     
     // data must be a json consisting of the message and the conversation where the sender is chatting in
     socket.on("chat_message", (data) => {
-        console.log("received chat message by " + username)
+        console.log("received chat message by " + data["sender"]);
 
         if (data["message"] != "") {
-            const message = { "sender": username, "message": data["message"] };
+            const message = { "sender": data["sender"], "message": data["message"] };
             const time_stamp = Date.now();
             const conversation_name = data["conversation"];
             let conversation = chats[conversation_name];
             
-            if (conversation["users"].includes(username)) {
+            if (conversation["users"].includes(data["sender"])) {
                 if (conversation["messages"][time_stamp] == null) {
                     conversation["messages"][time_stamp] = [];
                 }

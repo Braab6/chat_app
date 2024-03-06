@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Globals
 
     let time_last_message = 0;
+    let username;
 
     // Functions
 
@@ -52,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (message !== "") {
                 console.log("[INFO] sending_message");
-                socket.emit("chat_message", { "conversation": "default", "message": message });
+                socket.emit("chat_message", { "conversation": "default", "message": message, "sender": username });
 
                 text_input.innerText = "";
                 time_last_message = time_ms;
@@ -96,6 +97,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const item = document.createElement("message");
         item.innerHTML = new_child;
         chat_area.appendChild(item);
+    });
+
+    socket.on("user_joined", (name) => {
+        username = name;
     });
 
     console.log("[INFO] done initializing app");
