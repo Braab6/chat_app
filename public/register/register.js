@@ -9,15 +9,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const register_button = document.getElementById("register_button");
 
     socket.on("authenticated", (p) => {
-    localStorage.setItem("username", p);
-    console.log("Authenticated with username " + p);
-    window.location.href = "https://santo-chat.northeurope.cloudapp.azure.com/chat/chat.html";
-  })
+        localStorage.setItem("username", p);
+        console.log("Authenticated with username " + p);
+        window.location.href = "https://santo-chat.northeurope.cloudapp.azure.com/chat/chat.html";
+    });
     
     register_button.onclick = function(event) {
-        console.log("pressed")
-        if (password === confirm_password) {
-            console.log("Password equal")
+        console.log("pressed");
+        if (password.value === confirm_password.value) {
+            console.log("Password equal");
             socket.emit("register", { "name": username.value, "password": password.value });
         }
     }
