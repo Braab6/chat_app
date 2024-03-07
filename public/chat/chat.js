@@ -36,12 +36,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const socket = io();
 
-    const message_cooldown_ms = 1000;
+    const message_cooldown_ms = 500;
 
     // Globals
 
     let time_last_message = 0;
     let last_message_username = null;
+
+    // Request Chats
+
+    socket.emit("request_chats", localStorage.getItem("username"));
 
     // Functions
 
@@ -54,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (message !== "") {
                 console.log("[INFO] sending_message");
-                socket.emit("chat_message", { "conversation": "default", "message": message, "sender": username });
+                socket.emit("chat_message", { "conversation": localStorage.getItem("conversation"), "message": message, "sender": username });
 
                 text_input.innerText = "";
                 time_last_message = time_ms;
