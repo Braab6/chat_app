@@ -51,10 +51,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // Globals
 
     let time_last_message = 0;
+    let actual_amount = 10;
 
     const username = localStorage.getItem("username");
     const conversation = localStorage.getItem("conversation");
-    const actual_amount = 10;
 
     // Functions
 
