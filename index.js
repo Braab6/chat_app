@@ -172,14 +172,14 @@ io.on("connection", (socket) => {
     });
 
     socket.on("request_recent", (data) => { // data must be consisting of number (number of messages) and conversation
-        let messages = chats[data["conversation"]]["messages"];
+        const messages = chats[data["conversation"]]["messages"];
         let output = {};
         let number = data["number"];
         let keys = Object.keys(messages);
 
-        keys = keys.reverse()
+        keys = keys.reverse();
 
-        for (i = number; i > 0; i--) {
+        for (i = number; i >= 0; i--) {
             output[keys[i]] = messages[keys[i]];
         }
 

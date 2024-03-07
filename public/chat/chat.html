@@ -330,6 +330,35 @@
             font-weight: bolder;
         }
         
+        #chat_area {
+                background-color: rgb(255, 0, 60);
+                color: white;
+                padding-top: 20px;
+                padding-left: 20px;
+                width: 430px;
+                height: 66%;
+                bottom: 20%;
+                position: fixed;
+                right: 0;
+            }
+
+            #contact-list {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .contact {
+                border-bottom: 1px solid #229b9b;
+                cursor: pointer;
+                transition: background-color 0.3s;
+                text-align: center;
+                font-size: 50px;
+            }
+
+            .contact:hover {
+                background-color: #2fa99a;
+            }   
     </style>
 
     <body translate="no" style="background-color: var(--color_background); transition: all 1s;">
@@ -351,7 +380,7 @@
                 <div id="chat_area">
 
                 </div>
-                <div id="conversations" style="width: 25%; background-color: var(--color_secondary);">
+                <div id="chats" style="width: 25%; background-color: var(--color_secondary);">
 
                 </div>
             </div>
