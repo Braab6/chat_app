@@ -67,6 +67,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 socket.emit("chat_message", { "conversation": localStorage.getItem("conversation"), "message": message, "sender": username });
 
                 text_input.innerText = "";
+                placeholder.style.display = "none";
+
                 time_last_message = time_ms;
             }
         } else {
