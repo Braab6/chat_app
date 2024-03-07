@@ -1,18 +1,26 @@
+function is_whitespace(character) {
+    return " \f\n\r\t\v\u00A0\u2028\u2029".includes(character);
+}
+
 // HTML exposed functions
 
 function text_input_focus(event) {
     const text_input = document.getElementById("text_input");
+    const placeholder = document.getElementById("placeholder");
 
-    if (text_input.innerText === "message group...") {
-        text_input.innerText = "";
+    if (text_input.innerText === "" || is_whitespace(text_input.innerText)) {
+        placeholder.style.display = "none";
     }
 }
 
 function text_input_unfocus(event) {
     const text_input = document.getElementById("text_input");
+    const placeholder = document.getElementById("placeholder");
 
-    if (text_input.innerText == null || text_input.innerText.trim() === "") {
-        text_input.innerText = "message group...";
+    console.log(text_input.innerText);
+
+    if (text_input.innerText === "" || is_whitespace(text_input.innerText)) {
+        placeholder.style.display = "inline-block";
     }
 }
 
@@ -76,9 +84,32 @@ document.addEventListener("DOMContentLoaded", function () {
     // Event Handlers
 
     document.onkeydown = function(event) {
-        if ((document.activeElement.id === text_input.id || document.activeElement.tagName === "BODY") && event.key === "Enter" && !event.shiftKey) {
-            event.preventDefault();
-            send_message();
+        if ((document.activeElement.id === text_input.id || document.activeElement.tagName === "BODY")) {
+            if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();
+                send_message();
+            } else {
+                text_input.focus();
+
+                let range;
+                let selection;
+
+                if (document.createRange) {
+                    range = document.createRange();
+                    range.selectNodeContents(text_input);
+                    range.collapse(false);
+
+                    selection = window.getSelection();
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                } else if (document.selection) {
+                    range = document.body.createTextRange();
+                    range.moveToElementText(text_input);
+
+                    range.collapse(false);
+                    range.select();
+                }
+            }
         }
     };
 
@@ -142,4 +173,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     console.log("[INFO] done initializing app");
+
+    add_conversation_button.onclick = function(event) {
+        let conversation_name = "Hallo";
+        let members = [];
+        socket.emit("add_conversation", { "name": conversation_name, "members": members });
+    }
 });
