@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
     socket.emit("request_chats", username);
 
     socket.on("chats", (data) => {
-
+        
     });
 
     // Request Chat History
@@ -132,26 +132,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const last_child = chat_area.lastElementChild;
         let last_child_tag_closed = false;
-        let html_message;
-
-        if (last_child != null && last_child.outerHTML.includes("<div class=\"user_message\">") && last_child.outerHTML.includes("</div>")) {
-            last_child_tag_closed = true;
-        }
-
-        if (username === last_message_username && last_child_tag_closed) {
-            html_message = last_child.innerHTML + "<div class=\"message\"><span>" + text_message + "</span></div>"
-            chat_area.removeChild(last_child);
-        } else {
-            html_message = "<div class=\"message\"><span>" + username + "</span><span>:</span><span>" + text_message + "</span></span></div>"
-        }
+        let html_message = "<div class=\"message\"><span>" + text_message + "</span></div>";
 
         const item = document.createElement("div");
         item.className = "user_message";
         item.innerHTML = html_message;
-
         chat_area.appendChild(item);
-
-        text_input.innerText = "";
 
         last_message_username = username;
     });

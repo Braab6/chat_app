@@ -179,13 +179,11 @@ io.on("connection", (socket) => {
         
         keys = keys.reverse();
 
-        console.log(messages)
-        console.log(output)
-        console.log(number)
-        console.log(keys)
         for (i = 0; i < number; i++) {
             output[keys[i]] = messages[keys[i]];
         }
+        
+        console.log(output)
 
         io.emit("messages", output);
     });
