@@ -61,7 +61,7 @@ let raw_chats_data;
 if (file_system.existsSync("accounts.json")) {
     raw_accounts_data = JSON.parse(file_system.readFileSync("accounts.json"));
 } else {
-    raw_accounts_data = { "admin": "admin12345678" };
+    raw_accounts_data = { "admin": "123" };
     log("couldn't load accounts databases", type = "FATAL");
 }
 
@@ -144,9 +144,9 @@ io.on("connection", (socket) => {
             const message = { "sender": data["sender"], "message": data["message"] };
             const time_stamp = Date.now();
             const conversation_name = data["conversation"];
-            let conversation = chats[conversation_name];
-            console.log("debug1: " + conversation["users"] + data["sender"]);
-            
+            const conversation = chats[conversation_name];
+
+            debug("debug1: " + conversation["users"] + " >> " + data["sender"]);
             if (conversation["users"].includes(data["sender"])) {
                 if (conversation["messages"][time_stamp] == null) {
                     conversation["messages"][time_stamp] = [];
@@ -156,7 +156,8 @@ io.on("connection", (socket) => {
 
                 chats[conversation_name] = conversation;
 
-                console.log("debug2")
+                debug("chat message");
+
                 io.emit("chat_message", message);
             }
         }
