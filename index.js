@@ -155,7 +155,7 @@ io.on("connection", (socket) => {
             const server_message = { "sender": data["sender"], "message": data["message"] };
             const conversation_name = data["conversation"];
             const conversation = chats[conversation_name];
-            if (data["sender"] != null && conversation["users"] != null) {
+            if (data["sender"] != null && conversation != null) {
                 if (conversation["users"].includes(data["sender"]) || conversation["users"].includes("@everyone")) {
                     if (conversation["messages"][timestamp] == null) {
                         conversation["messages"][timestamp] = [];
