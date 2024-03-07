@@ -123,8 +123,9 @@ io.on("connection", (socket) => {
             log("user already exists", type = "WARNING");
         } else {
             accounts[credentials["name"]] = credentials["password"]
-            logged_in.push(credentials["name"]); // adds user to the list of online users
-            log("user " + credentials["name"] + " connected");
+            logged_in.push(credentials["name"]);
+            
+            log("user " + credentials["name"] + " registered");
 
             added_user = true;
             num_users += 1;

@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     socket.on("authenticated", (p) => {
         localStorage.setItem("username", p);
+        localStorage.setItem("conversation", "default");
         console.log("Authenticated with username " + p);
         window.location.href = "https://santo-chat.northeurope.cloudapp.azure.com/chat/chat.html";
     });
