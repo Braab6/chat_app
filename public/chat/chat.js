@@ -51,10 +51,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // Globals
 
     let time_last_message = 0;
-    let actual_amount = 10;
 
     const username = localStorage.getItem("username");
     const conversation = localStorage.getItem("conversation");
+
+    const messages = {};
 
     // Functions
 
@@ -80,7 +81,19 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    function show_message(username, text_message) {
+    function add_message(timestamp, username, text_message) {
+        if (messages[timestamp] == null) {
+            messages[timestamp] = {
+                "username": text_message
+            };
+        } else {
+            messages[timestamp].push({
+                "username": text_message
+            });
+        }
+    }
+
+    function show_message(username, text_message, bottom = true) {
         let scrolled_down = false;
 
         if (chat_area.scrollTop >= chat_area.scrollHeight) {
@@ -94,7 +107,12 @@ document.addEventListener("DOMContentLoaded", function () {
         const item = document.createElement("div");
         item.className = "message";
         item.innerHTML = "<span>" + username + "</span><span>:</span><span>" + text_message + "</span>";
-        chat_area.appendChild(item);
+
+        if (bottom) {
+            chat_area.append(item);
+        } else {
+            chat_area.prepend(item);
+        }
 
         if (scrolled_down) {
             chat_area.scrollTo(0, chat_area.scrollHeight);
@@ -110,9 +128,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // Request Recent
 
     setInterval(() => {
-        if (chat_area.scrollTop <= 0) {
-            actual_amount += 10;
-            socket.emit("request_recent", { "conversation" : conversation, "amount" : actual_amount, "time" : Date.now() });
+        if (chat_area.scrollTop <= 0 && messages.length >= 1) {
+            const time_last_message = messages[Object.keys(messages)[0]];
+            console.log("time_last_message " + time_last_message);
+            socket.emit("request_recent", { "conversation" : conversation, "amount" : 100, "time" : time_last_message });
         }
     }, 100);
 
@@ -175,7 +194,7 @@ document.addEventListener("DOMContentLoaded", function () {
     logout_button.onclick = function(event) {
         localStorage.removeItem("conversation");
         localStorage.removeItem("username");
-        
+
         socket.emit("logout", username);
 
         window.location.href = "https://santo-chat.northeurope.cloudapp.azure.com";
@@ -204,7 +223,8 @@ document.addEventListener("DOMContentLoaded", function () {
     socket.on("messages", (data) => {
         for (const[key, value] of Object.entries(data)) {
             for (const message of value) {
-                show_message(message["sender"], message["message"]);
+                add_message(message["timestamp"], message["sender"], message["message"]);
+                show_message(message["sender"], message["message"], false);
             }
         }
     });
@@ -214,9 +234,11 @@ document.addEventListener("DOMContentLoaded", function () {
     socket.on("chat_message", (message) => {
         console.log("[INFO] received message:" + message);
 
+        const timestamp = message["timestamp"];
         const username = message["sender"];
         const text_message = message["message"].replaceAll('\n', "<br/>");
 
+        add_message(timestamp, username, text_message);
         show_message(username, text_message);
     });
 

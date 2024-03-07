@@ -150,16 +150,17 @@ io.on("connection", (socket) => {
         log("received chat message by " + data["sender"]);
 
         if (data["message"] != "") {
-            const message = { "sender": data["sender"], "message": data["message"] };
-            const time_stamp = Date.now();
+            const timestamp = Date.now();
+            const message = { "timestamp": timestamp, "sender": data["sender"], "message": data["message"] };
+            const server_message = { "sender": data["sender"], "message": data["message"] };
             const conversation_name = data["conversation"];
             const conversation = chats[conversation_name];
             if (conversation["users"].includes(data["sender"]) || conversation["users"].includes("@everyone")) {
-                if (conversation["messages"][time_stamp] == null) {
-                    conversation["messages"][time_stamp] = [];
+                if (conversation["messages"][timestamp] == null) {
+                    conversation["messages"][timestamp] = [];
                 }
 
-                conversation["messages"][time_stamp].push(message);
+                conversation["messages"][timestamp].push(server_message);
 
                 chats[conversation_name] = conversation;
 
@@ -179,10 +180,11 @@ io.on("connection", (socket) => {
             const messages = chats[conversations]["messages"];
             const output = {};
 
-            const keys = Object.keys(messages).reverse().filter((time_stamp) => time_stamp < time);
+            const keys = Object.keys(messages).reverse().filter((timestamp) => timestamp < time);
 
             for (i = amount; i >= 0; i--) {
                 output[keys[i]] = messages[keys[i]];
+                output[keys[i]]["timestamp"] = keys[i];
             }
 
             socket.emit("messages", output);
