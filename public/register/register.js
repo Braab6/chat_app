@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     register_button.onclick = function(event) {
         console.log("pressed");
-        if (password.value == confirm_password.value) {
+        if (password.value == confirm_password.value&& password.value != null) {
             console.log("Passwort: " + password.value);
             socket.emit("register", { "name": username.value, "password": password.value });
         }
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.onkeydown = function(event) {
         console.log("pressed");
-        if (password.value == confirm_password.value) {
+        if (password.value == confirm_password.value && password.value != null) {
             console.log("Passwort: " + password.value);
             socket.emit("register", { "name": username.value, "password": password.value });
         }
