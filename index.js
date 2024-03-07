@@ -186,7 +186,7 @@ io.on("connection", (socket) => {
 
             for (i = amount; i >= 0; i--) {
                 output[keys[i]] = messages[keys[i]];
-                output[keys[i]]["timestamp"] = keys[i];
+                //output[keys[i]]["timestamp"] = keys[i];
             }
 
             socket.emit("messages", output);
