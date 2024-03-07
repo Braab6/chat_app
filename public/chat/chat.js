@@ -101,8 +101,19 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         const item = document.createElement("div");
+
+        const span_username = document.createElement("span");
+        const span_separator = document.createElement("span");
+        const span_message = document.createElement("span");
+
+        span_username.innerText = username;
+        span_separator.innerText = ":";
+        span_message.innerText = text_message;
+
         item.className = "message";
-        item.innerHTML = "<span>" + username + "</span><span>:</span><span>" + text_message + "</span>";
+        item.appendChild(span_username);
+        item.appendChild(span_separator);
+        item.appendChild(span_message);
 
         if (bottom) {
             chat_area.append(item);
