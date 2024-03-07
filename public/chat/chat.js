@@ -52,7 +52,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (time_ms - time_last_message > message_cooldown_ms) {
             const message = text_input.innerText.trim();
-            const username = localStorage.getItem("username");
 
             if (message !== "") {
                 console.log("[INFO] sending_message");
@@ -83,15 +82,23 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
 
-    // Request Chats
-
-    socket.emit("request_chats", );
+    // Connection Error
 
     socket.on("connect_error", (error) => {
         console.log(error.message);
         console.log(error.description);
         console.log(error.context);
     });
+
+    // Request Chats
+
+    socket.emit("request_chats", username);
+
+    socket.on("chats", (data) => {
+
+    });
+
+    // Chat Message
 
     socket.on("chat_message", (message) => {
         console.log("[INFO] received message:" + message);
