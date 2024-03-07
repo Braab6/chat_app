@@ -176,14 +176,12 @@ io.on("connection", (socket) => {
         let output = {};
         let number = data["number"];
         let keys = Object.keys(messages);
-        
-        keys = keys.reverse();
 
         for (i = 0; i < number; i++) {
             output[keys[i]] = messages[keys[i]];
         }
 
-        io.emit("messages", output);
+        socket.emit("messages", output);
     });
 
     socket.on("request_chats", (data) => {
