@@ -153,7 +153,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Request Chat History
 
-    socket.emit("request_recent", { "conversation": conversation, "amount": 10 });
+    socket.emit("request_recent", { "conversation": conversation, "amount": 10, "time": Date.now() });
 
     socket.on("messages", (data) => {
         for (const[key, value] of Object.entries(data)) {
@@ -177,8 +177,12 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("[INFO] done initializing app");
 
     add_conversation_button.onclick = function(event) {
-        let conversation_name = "Hallo";
-        let members = [];
+        let conversation_name = "Platzhalter";
+        let members = [username];
         socket.emit("add_conversation", { "name": conversation_name, "members": members });
     }
+
+    socket.on("move_to", (con_name) => {
+        localStorage.setItem("conversation", con_name);
+    });
 });

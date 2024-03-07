@@ -174,12 +174,15 @@ io.on("connection", (socket) => {
     socket.on("request_recent", (data) => { // data must be consisting of amount (amount of messages) and conversation
         const conversations = data["conversation"];
         const amount = data["amount"];
+        const time = data["time"]
 
         if (conversations != null && amount != null && amount <= 100) {
             const messages = chats[conversations]["messages"];
             const output = {};
 
             const keys = Object.keys(messages).reverse();
+
+            keys = keys.filter((time_stamp) => time_stamp < time);
 
             for (i = amount; i >= 0; i--) {
                 output[keys[i]] = messages[keys[i]];
@@ -213,6 +216,11 @@ io.on("connection", (socket) => {
                 "num_users": num_users
             });
         }
+    });
+
+    socket.on("add_conversation", (data) => {
+        chats[data["name"]] = { "users": data["members"], "messages": {} }
+        socket.emit("move_to", data["name"]);
     });
 });
 
