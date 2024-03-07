@@ -154,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         console.log("disconnect");
 
-        window.location.href = "https://santo-chat.northeurope.cloudapp.azure.com.html";
+        window.location.href = "https://santo-chat.northeurope.cloudapp.azure.com";
     };
 
     // Connection Error
