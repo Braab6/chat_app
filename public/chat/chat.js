@@ -123,11 +123,9 @@ document.addEventListener("DOMContentLoaded", function () {
     socket.emit("request_recent", { "conversation": conversation, "amount": 10 });
 
     socket.on("messages", (data) => {
-        if (data["messages"] === username) {
-            for (const[key, value] of Object.entries(data)) {
-                for (const message of value) {
-                    show_message(message["sender"], message["message"]);
-                }
+        for (const[key, value] of Object.entries(data)) {
+            for (const message of value) {
+                show_message(message["sender"], message["message"]);
             }
         }
     });
