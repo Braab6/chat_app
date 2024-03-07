@@ -17,15 +17,14 @@ document.addEventListener("DOMContentLoaded", function () {
     
     register_button.onclick = function(event) {
         console.log("pressed");
-        if (password.value == confirm_password.value&& password.value != null) {
+        if (password.value == confirm_password.value && password.value != "") {
             console.log("Passwort: " + password.value);
             socket.emit("register", { "name": username.value, "password": password.value });
         }
     }
 
     document.onkeydown = function(event) {
-        console.log("pressed");
-        if (password.value == confirm_password.value && password.value != null) {
+        if (event.key === "Enter" && password.value == confirm_password.value && password.value != "") {
             console.log("Passwort: " + password.value);
             socket.emit("register", { "name": username.value, "password": password.value });
         }
