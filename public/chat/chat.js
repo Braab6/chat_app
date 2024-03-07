@@ -98,11 +98,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (Math.abs(chat_area.scrollHeight - chat_area.scrollTop - chat_area.clientHeight) < 1) {
             scrolled_down = true;
+            console.log("scrolled down");
         }
-
-        console.log("scrolled_down" + scrolled_down);
-        console.log("scrollTop" + chat_area.scrollTop);
-        console.log("scrollHeight" + chat_area.scrollHeight);
 
         const item = document.createElement("div");
         item.className = "message";
