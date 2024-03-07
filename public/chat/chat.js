@@ -146,11 +146,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Logout Button
 
-    logout_button.onchange = function(event) {
+    logout_button.onclick = function(event) {
         localStorage.removeItem("conversation");
         localStorage.removeItem("username");
-
+        
         socket.emit("logout", username);
+
+        console.log("disconnect");
 
         window.location.href = "https://santo-chat.northeurope.cloudapp.azure.com.html";
     };
