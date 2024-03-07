@@ -147,7 +147,12 @@ document.addEventListener("DOMContentLoaded", function () {
     // Logout Button
 
     logout_button.onchange = function(event) {
-        socket.emit("disconnect", username);
+        localStorage.removeItem("conversation");
+        localStorage.removeItem("username");
+
+        socket.emit("logout", username);
+
+        window.location.href = "https://santo-chat.northeurope.cloudapp.azure.com.html";
     };
 
     // Connection Error

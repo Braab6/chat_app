@@ -202,7 +202,7 @@ io.on("connection", (socket) => {
         io.emit("chats", { "chats" : output });
     });
 
-    socket.on("disconnect", (data) => {
+    socket.on("logout", (data) => {
         num_users -= 1;
         logged_in.splice(data);
         log(data + " disconnected")
