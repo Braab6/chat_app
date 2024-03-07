@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function show_message(username, text_message, bottom = true) {
         let scrolled_down = false;
 
-        if (chat_area.scrollTop >= chat_area.scrollHeight) {
+        if (Math.abs(chat_area.scrollHeight - chat_area.scrollTop - chat_area.clientHeight) < 1) {
             scrolled_down = true;
         }
 
@@ -241,6 +241,8 @@ document.addEventListener("DOMContentLoaded", function () {
         add_message(timestamp, username, text_message);
         show_message(username, text_message);
     });
+
+    // Done Info
 
     console.log("[INFO] done initializing app");
 });
