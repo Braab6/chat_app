@@ -155,10 +155,6 @@ io.on("connection", (socket) => {
             const time_stamp = Date.now();
             const conversation_name = data["conversation"];
             const conversation = chats[conversation_name];
-            console.log(message);
-            console.log(conversation_name);
-            console.log(conversation);
-            console.log(data)
             if (conversation["users"].includes(data["sender"]) || conversation["users"].includes("@everyone")) {
                 if (conversation["messages"][time_stamp] == null) {
                     conversation["messages"][time_stamp] = [];
@@ -175,7 +171,7 @@ io.on("connection", (socket) => {
         }
     });
 
-    socket.on("recent", (data) => { // data must be consisting of number (number of messages) and conversation
+    socket.on("request_recent", (data) => { // data must be consisting of number (number of messages) and conversation
         let messages = chats[data["conversation"]]["messages"];
         let output = {};
         let number = data["number"];

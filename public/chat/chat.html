@@ -44,21 +44,21 @@
         }
 
         :root {
-            --color_text: #020A19;
-            --color_background: #F8FBFE;
-            --color_primary: #215DEC;
-            --color_secondary: #DB73F3;
-            --color_accent: #F051DB;
+            --color_text: #01060c;
+            --color_background: #f2f2f2;
+            --color_primary: #7f7f7f;
+            --color_secondary: #c9c9c9;
+            --color_accent: #7de9ff;
 
             --color_shadow: #0000001A;
 
             /* Light Mode Colors */
 
-            --light_mode_color_text: #020A19;
-            --light_mode_color_background: #F8FBFE;
-            --light_mode_color_primary: #215DEC;
-            --light_mode_color_secondary: #DB73F3;
-            --light_mode_color_accent: #F051DB;
+            --light_mode_color_text: #01060c;
+            --light_mode_color_background: #f2f2f2;
+            --light_mode_color_primary: #7f7f7f;
+            --light_mode_color_secondary: #c9c9c9;
+            --light_mode_color_accent: #7de9ff;
 
             --light_mode_color_shadow: #0000001A;
 
@@ -118,6 +118,12 @@
         li {
             text-decoration: none;
             list-style-type: none;
+        }
+
+        /* Input Buttons */
+
+        .styled_toggle {
+            display: none;
         }
 
         /* Navigation */
@@ -335,7 +341,7 @@
                     <input id="expand_toggle" class="toggle" type="checkbox"><label for="expand_toggle" class="expand"><span class="material-symbols-outlined outline_symbol">expand_less</span></label>
                 </div>
                 <div id="profile_navigation" class="navigation">
-                    <span class="material-symbols-outlined fill_symbol">person</span>
+                    <input id="rooms" class="styled_toggle" type="checkbox"><label for="rooms"><span class="material-symbols-outlined fill_symbol">person</span></label>
                     <div style="width: 2px; height: 40px; border-radius: 2px; background-color: #263238;"></div>
                     <span class="material-symbols-outlined fill_symbol" style="font-size: 36px;">chat</span>
                     <span class="material-symbols-outlined fill_symbol" style="font-size: 38px;">sensor_door</span>
@@ -357,3 +363,4 @@
         </div>
     </body>
 </html>
+7de9ff

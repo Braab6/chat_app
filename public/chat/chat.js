@@ -44,6 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let last_message_username = null;
 
     const username = localStorage.getItem("username");
+    const conversation = localStorage.getItem("conversation");
 
     // Functions
 
@@ -96,6 +97,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
     socket.on("chats", (data) => {
 
+    });
+
+    // Request Chat History
+
+    socket.emit("request_recent", { "conversation": conversation, "number": 100 });
+
+    socket.on("messages", (data) => {
+        console.log(data);
+        for (const[key, value] of Object.entries(data)) {
+            console.log("key: " + key);
+        }
     });
 
     // Chat Message
