@@ -171,19 +171,24 @@ io.on("connection", (socket) => {
         }
     });
 
-    socket.on("request_recent", (data) => { // data must be consisting of number (number of messages) and conversation
-        const messages = chats[data["conversation"]]["messages"];
-        let output = {};
-        let number = data["number"];
-        let keys = Object.keys(messages);
+    socket.on("request_recent", (data) => { // data must be consisting of amount (amount of messages) and conversation
+        const conversations = data["conversation"];
+        const amount = data["amount"];
 
-        keys = keys.reverse();
+        if (conversations != null && amount != nu) {
+            const messages = chats[conversations]["messages"];
+            const output = {};
 
-        for (i = number; i >= 0; i--) {
-            output[keys[i]] = messages[keys[i]];
+            let keys = Object.keys(messages);
+
+            keys = keys.reverse();
+
+            for (i = amount; i >= 0; i--) {
+                output[keys[i]] = messages[keys[i]];
+            }
+
+            socket.emit("messages",  output);
         }
-
-        socket.emit("messages", output);
     });
 
     socket.on("request_chats", (data) => {

@@ -47,7 +47,7 @@
             --color_text: #fef9f3;
             --color_background: #4c4c4c;
             --color_primary: #808080;
-            --color_secondary: #252525;
+            --color_secondary: #3c3c3c;
             --color_accent: #5d868e;
 
             --color_shadow: #0000001A;
@@ -67,7 +67,7 @@
             --dark_mode_color_text: #fef9f3;
             --dark_mode_color_background: #4c4c4c;
             --dark_mode_color_primary: #808080;
-            --dark_mode_color_secondary: #252525;
+            --dark_mode_color_secondary: #3c3c3c;
             --dark_mode_color_accent: #5d868e;
 
             --dark_mode_color_shadow: #0000001A;
@@ -329,9 +329,9 @@
         .message:nth-child(1) {
             font-weight: bolder;
         }
-        
-        #chat_area {
-                background-color: rgb(255, 0, 60);
+
+        #conversations {
+                background-color: rgb(13, 204, 204);
                 color: white;
                 padding-top: 20px;
                 padding-left: 20px;
@@ -340,25 +340,26 @@
                 bottom: 20%;
                 position: fixed;
                 right: 0;
+                transition: right 0.3s;
             }
+        
+        #contact-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
 
-            #contact-list {
-                list-style-type: none;
-                padding: 0;
-                margin: 0;
-            }
+        .contact {
+            border-bottom: 1px solid #229b9b;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-align: center;
+            font-size: 50px;
+        }
 
-            .contact {
-                border-bottom: 1px solid #229b9b;
-                cursor: pointer;
-                transition: background-color 0.3s;
-                text-align: center;
-                font-size: 50px;
-            }
-
-            .contact:hover {
-                background-color: #2fa99a;
-            }   
+        .contact:hover {
+            background-color: #2fa99a;
+        }   
     </style>
 
     <body translate="no" style="background-color: var(--color_background); transition: all 1s;">
@@ -380,7 +381,16 @@
                 <div id="chat_area">
 
                 </div>
-                <div id="chats" style="width: 25%; background-color: var(--color_secondary);">
+                <div id="conversations" style="width: 25%; background-color: var(--color_secondary);">
+                    
+                    <ul id="contact-list">
+
+                        <li class="contact">JohCra</li>
+                        <li class="contact">Logan Lagab</li>
+                        <li class="contact">The Unknown</li>
+                        <li class="contact">cally72jhb</li>
+        
+                    </ul>
 
                 </div>
             </div>

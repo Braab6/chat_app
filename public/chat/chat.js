@@ -120,12 +120,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Request Chat History
 
-    socket.emit("request_recent", { "conversation": conversation, "number": 10 });
+    socket.emit("request_recent", { "conversation": conversation, "amount": 10});
 
     socket.on("messages", (data) => {
-        for (const[key, value] of Object.entries(data)) {
-            for (message of value) {
-                show_message(message["sender"], message["message"]);
+        if (data["messages"] == username) {
+            for (const[key, value] of Object.entries(data)) {
+                for (message of value) {
+                    show_message(message["sender"], message["message"]);
+                }
             }
         }
     });
