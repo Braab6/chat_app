@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 time_last_message = time_ms;
 
-                chat_area.scrollTo(0, chat_area.height);
+                chat_area.scrollTo(0, chat_area.scrollHeight);
             }
         } else {
             console.log("[INFO] please wait before sending another message");
@@ -81,10 +81,20 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function show_message(username, text_message) {
+        let scrolled_down = false;
+
+        if (chat_area.scrollTop >= chat_area.scrollHeight) {
+            scrolled_down = true;
+        }
+
         const item = document.createElement("div");
         item.className = "message";
         item.innerHTML = "<span>" + username + "</span><span>:</span><span>" + text_message + "</span>";
         chat_area.appendChild(item);
+
+        if (scrolled_down) {
+            chat_area.scrollTo(0, chat_area.scrollHeight);
+        }
     }
 
     // Logout Ping
