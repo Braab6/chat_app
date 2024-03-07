@@ -177,9 +177,13 @@ io.on("connection", (socket) => {
         let number = data["number"];
         let keys = Object.keys(messages);
 
+        keys = keys.reverse()
+
         for (i = 0; i < number; i++) {
             output[keys[i]] = messages[keys[i]];
         }
+
+        output = output.reverse()
 
         socket.emit("messages", output);
     });

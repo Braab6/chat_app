@@ -68,8 +68,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function show_message(username, text_message) {
         const item = document.createElement("div");
-        item.className = "user_message";
-        item.innerHTML = "<div class=\"message\"><span>" + username + "</span><span>:</span><span>" + text_message + "</span></div>";
+        item.className = "message";
+        item.innerHTML = "<span>" + username + "</span><span>:</span><span>" + text_message + "</span>";
         chat_area.appendChild(item);
     }
 
