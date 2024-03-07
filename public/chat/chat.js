@@ -152,8 +152,6 @@ document.addEventListener("DOMContentLoaded", function () {
         
         socket.emit("logout", username);
 
-        console.log("disconnect");
-
         window.location.href = "https://santo-chat.northeurope.cloudapp.azure.com";
     };
 
