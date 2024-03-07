@@ -67,11 +67,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function show_message(username, text_message) {
-        let html_message = "<div class=\"message\"><span>" + username + "</span><span>:</span><span>" + text_message + "</span></span></div>";
-
         const item = document.createElement("div");
         item.className = "user_message";
-        item.innerHTML = html_message;
+        item.innerHTML = "<div class=\"message\"><span>" + username + "</span><span>:</span><span>" + text_message + "</span></span></div>";
         chat_area.appendChild(item);
     }
 
@@ -122,10 +120,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Request Chat History
 
-    socket.emit("request_recent", { "conversation": conversation, "number": 100 });
+    socket.emit("request_recent", { "conversation": conversation, "number": 10 });
 
     socket.on("messages", (data) => {
         for (const[key, value] of Object.entries(data)) {
+            console.log(value)
             show_message(value["sender"], value["message"]);
         }
     });
