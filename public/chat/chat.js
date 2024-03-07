@@ -77,9 +77,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
     dark_mode_toggle.onchange = function(event) {
         if (this.checked) {
-            root.style.setProperty("--background_color", "#FFFFFF");
+            root.style.setProperty("--color_text", root_variables.getPropertyValue("--light_mode_color_text"));
+            root.style.setProperty("--color_background", root_variables.getPropertyValue("--light_mode_color_background"));
+            root.style.setProperty("--color_primary", root_variables.getPropertyValue("--light_mode_color_primary"));
+            root.style.setProperty("--color_secondary", root_variables.getPropertyValue("--light_mode_color_secondary"));
+            root.style.setProperty("--color_accent", root_variables.getPropertyValue("--light_mode_color_accent"));
+
+            root.style.setProperty("--color_shadow", root_variables.getPropertyValue("--light_mode_color_shadow"));
         } else {
-            root.style.setProperty("--background_color", "#000000");
+            root.style.setProperty("--color_text", root_variables.getPropertyValue("--dark_mode_color_text"));
+            root.style.setProperty("--color_background", root_variables.getPropertyValue("--dark_mode_color_background"));
+            root.style.setProperty("--color_primary", root_variables.getPropertyValue("--dark_mode_color_primary"));
+            root.style.setProperty("--color_secondary", root_variables.getPropertyValue("--dark_mode_color_secondary"));
+            root.style.setProperty("--color_accent", root_variables.getPropertyValue("--dark_mode_color_accent"));
+
+            root.style.setProperty("--color_shadow", root_variables.getPropertyValue("--dark_mode_color_shadow"));
         }
     };
 
