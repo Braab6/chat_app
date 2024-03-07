@@ -18,7 +18,6 @@
 
         <link rel="icon" type="image/x-icon" href="unset"/>
         <title>Chat App</title>
-        <link rel="icon" href="https://static-00.iconduck.com/assets.00/chat-icon-1024x1024-o88plv3x.png" type="image/chat-bubble">
 
         <!-- <link rel="stylesheet" href="/public/style.css"/> -->
 
@@ -45,31 +44,31 @@
         }
 
         :root {
-            --color_text: #fef9f3;
-            --color_background: #4c4c4c;
+            --color_text: #FEF9F3;
+            --color_background: #4C4C4C;
             --color_primary: #808080;
-            --color_secondary: #3c3c3c;
-            --color_accent: #5d868e;
+            --color_secondary: #3C3C3C;
+            --color_accent: #5D868E;
 
             --color_shadow: #0000001A;
 
             /* Light Mode Colors */
 
-            --light_mode_color_text: #01060c;
-            --light_mode_color_background: #ffffff;
-            --light_mode_color_primary: #7f7f7f;
-            --light_mode_color_secondary: #c9c9c9;
-            --light_mode_color_accent: #7de9ff;
+            --light_mode_color_text: #01060C;
+            --light_mode_color_background: #FFFFFF;
+            --light_mode_color_primary: #7F7F7F;
+            --light_mode_color_secondary: #C9C9C9;
+            --light_mode_color_accent: #93BDC6;
 
             --light_mode_color_shadow: #0000001A;
 
             /* Dark Mode Colors */
 
-            --dark_mode_color_text: #fef9f3;
-            --dark_mode_color_background: #4c4c4c;
+            --dark_mode_color_text: #FEF9F3;
+            --dark_mode_color_background: #4C4C4C;
             --dark_mode_color_primary: #808080;
-            --dark_mode_color_secondary: #3c3c3c;
-            --dark_mode_color_accent: #5d868e;
+            --dark_mode_color_secondary: #3C3C3C;
+            --dark_mode_color_accent: #5D868E;
 
             --dark_mode_color_shadow: #0000001A;
 
@@ -233,7 +232,25 @@
             flex-direction: column;
             align-items: center;
             place-items: flex-start;
+        }
 
+        #conversations {
+            width: 100%;
+            height: 100%;
+
+            border-radius: 25px;
+
+            overflow-x: hidden;
+            overflow-y: scroll;
+
+            scrollbar-width: thin;
+
+            scroll-snap-type: y mandatory;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            place-items: flex-start;
         }
 
         #input_area {
@@ -267,6 +284,22 @@
             font-size: 20px;
         }
 
+        #placeholder {
+            position: absolute;
+            display: inline-block;
+
+            z-index: 1;
+
+            text-decoration: none;
+            line-break: strict;
+            word-wrap: anywhere;
+
+            pointer-events: none;
+            user-select: none;
+
+            font-size: 20px;
+        }
+
         .message_field {
             padding: 10px 25px;
 
@@ -287,16 +320,6 @@
             background-color: var(--color_accent);
         }
 
-        .user_message {
-            width: 100%;
-
-            flex-wrap: wrap;
-
-            display: flex;
-            flex-direction: row;
-            gap: 0 15px;
-        }
-
         .message {
             margin-top: 5px;
             margin-bottom: 5px;
@@ -309,9 +332,6 @@
             text-decoration: none;
             line-break: strict;
             word-wrap: anywhere;
-
-            overflow-x: hidden;
-            overflow-y: hidden;
 
             scroll-snap-align: end;
 
@@ -331,13 +351,6 @@
             font-weight: bolder;
         }
 
-        #conversations {
-                padding-top: 10px;
-                height: 66%;
-                position: fixed;
-                right: 0;
-            }
-        
         #contact-list {
             list-style-type: none;
             padding: 0;
@@ -345,16 +358,16 @@
         }
 
         .contact {
-            border-bottom: 1px solid #4c4c4c;
+            border-bottom: 1px solid #229b9b;
             cursor: pointer;
             transition: background-color 0.3s;
             text-align: center;
-            font-size: 30px;
+            font-size: 50px;
         }
 
         .contact:hover {
             background-color: #2fa99a;
-        }   
+        }
     </style>
 
     <body translate="no" style="background-color: var(--color_background); transition: all 1s;">
@@ -366,23 +379,18 @@
                     <input id="expand_toggle" class="toggle" type="checkbox"><label for="expand_toggle" class="expand"><span class="material-symbols-outlined outline_symbol">expand_less</span></label>
                 </div>
                 <div id="profile_navigation" class="navigation">
-                    <input id="rooms" class="styled_toggle" type="checkbox"><label for="rooms"><span class="material-symbols-outlined fill_symbol">person</span></label>
-                    <div style="width: 2px; height: 40px; border-radius: 2px; background-color: #263238;"></div>
-                    <span class="material-symbols-outlined fill_symbol" style="font-size: 36px;">chat</span>
-                    <span class="material-symbols-outlined fill_symbol" style="font-size: 38px;">sensor_door</span>
+                    <input id="rooms_toggle" class="styled_toggle" type="checkbox"><label for="rooms_toggle"><span class="material-symbols-outlined fill_symbol">person</span></label>
+                    <div style="width: 2px; height: 40px; border-radius: 2px; background-color: var(--color_text);"></div>
+                    <input id="chat_toggle" class="styled_toggle" type="checkbox"><label for="chat_toggle"><span class="material-symbols-outlined fill_symbol" style="font-size: 36px;">chat</span></label>
+                    <input id="logout_button" class="styled_toggle" type="button"><label for="logout_button"><span class="material-symbols-outlined fill_symbol" style="font-size: 38px;">sensor_door</span></label>
                 </div>
             </div>
-            <div style="width: 100%; height: 100%; display: flex; flex-direction: row; gap: 15px 15px;">
+            <div style="width: 100%; height: 100%; overflow-y: hidden; display: flex; flex-direction: row; gap: 15px 15px;">
                 <div id="chat_area">
 
                 </div>
                 <div id="conversations" style="width: 25%; background-color: var(--color_secondary);">
-                    <ul id="contact-list">
-                        <li class="contact">JohCra</li>
-                        <li class="contact">Logan Lagab</li>
-                        <li class="contact">The Unknown</li>
-                        <li class="contact">cally72jhb</li>
-                    </ul>
+
                 </div>
             </div>
             <div id="input_area">

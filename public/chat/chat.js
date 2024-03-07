@@ -32,9 +32,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // Constants
 
     const text_input = document.getElementById("text_input");
+    const placeholder = document.getElementById("placeholder");
 
     const expand_toggle = document.getElementById("expand_toggle");
     const dark_mode_toggle = document.getElementById("dark_mode_toggle");
+    const logout_button = document.getElementById("logout_button");
 
     const navigation = document.getElementById("navigation");
     const chat_area = document.getElementById("chat_area");
@@ -49,7 +51,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Globals
 
     let time_last_message = 0;
-    let last_message_username = null;
 
     const username = localStorage.getItem("username");
     const conversation = localStorage.getItem("conversation");
@@ -83,6 +84,12 @@ document.addEventListener("DOMContentLoaded", function () {
         chat_area.appendChild(item);
     }
 
+    // Logout Ping
+
+    setInterval(() => {
+        socket.emit("ping", username);
+    }, 1000 * 60 * 1);
+
     // Event Handlers
 
     document.onkeydown = function(event) {
@@ -115,6 +122,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
 
+    // Dark Mode Toggle
+
     dark_mode_toggle.onchange = function(event) {
         if (this.checked) {
             root.style.setProperty("--color_text", root_variables.getPropertyValue("--light_mode_color_text"));
@@ -135,6 +144,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
 
+    // Logout Button
+
+    logout_button.onchange = function(event) {
+        socket.emit("disconnect", username);
+    };
+
     // Connection Error
 
     socket.on("connect_error", (error) => {
@@ -148,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function () {
     socket.emit("request_chats", username);
 
     socket.on("chats", (data) => {
-        
+
     });
 
     // Request Chat History
@@ -175,14 +190,4 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     console.log("[INFO] done initializing app");
-
-    add_conversation_button.onclick = function(event) {
-        let conversation_name = "Platzhalter";
-        let members = [username];
-        socket.emit("add_conversation", { "name": conversation_name, "members": members });
-    }
-
-    socket.on("move_to", (con_name) => {
-        localStorage.setItem("conversation", con_name);
-    });
 });

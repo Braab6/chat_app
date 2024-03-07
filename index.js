@@ -97,14 +97,12 @@ if (!Object.keys(accounts).includes(admin_name)) {
 // Socket Communication
 
 io.on("connection", (socket) => {
-    let added_user = false;
 
     socket.on("login", (credentials) => {
         if (Object.keys(accounts).includes(credentials["name"])) {
             if (accounts[credentials["name"]] == credentials["password"]) { // checks if the password is correct
                 logged_in.push(credentials["name"]);
                 
-                added_user = true;
                 num_users += 1;
 
                 socket.emit("authenticated", credentials["name"]);
@@ -127,7 +125,6 @@ io.on("connection", (socket) => {
             
             log("user " + credentials["name"] + " registered");
 
-            added_user = true;
             num_users += 1;
 
             socket.emit("authenticated", credentials["name"]);
@@ -206,14 +203,9 @@ io.on("connection", (socket) => {
     });
 
     socket.on("disconnect", (data) => {
-        const username = data;
-
-        if (added_user) {
-            socket.broadcast.emit("user_left", {
-                "username": username,
-                "num_users": num_users
-            });
-        }
+        num_users -= 1;
+        logged_in.splice(data);
+        log(data + " disconnected")
     });
 
     socket.on("add_conversation", (data) => {
