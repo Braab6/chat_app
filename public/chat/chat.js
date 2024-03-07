@@ -66,6 +66,15 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    function show_message(username, text_message) {
+        let html_message = "<div class=\"message\"><span>" + username + "</span><span>:</span><span>" + text_message + "</span></span></div>";
+
+        const item = document.createElement("div");
+        item.className = "user_message";
+        item.innerHTML = html_message;
+        chat_area.appendChild(item);
+    }
+
     // Event Handlers
 
     document.onkeydown = function(event) {
@@ -116,9 +125,8 @@ document.addEventListener("DOMContentLoaded", function () {
     socket.emit("request_recent", { "conversation": conversation, "number": 100 });
 
     socket.on("messages", (data) => {
-        console.log(data);
         for (const[key, value] of Object.entries(data)) {
-            console.log("key: " + key);
+            show_message(value["sender"], value["message"]);
         }
     });
 
@@ -130,16 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const username = message["sender"];
         const text_message = message["message"].replaceAll('\n', "<br/>");
 
-        const last_child = chat_area.lastElementChild;
-        let last_child_tag_closed = false;
-        let html_message = "<div class=\"message\"><span>" + text_message + "</span></div>";
-
-        const item = document.createElement("div");
-        item.className = "user_message";
-        item.innerHTML = html_message;
-        chat_area.appendChild(item);
-
-        last_message_username = username;
+        show_message(username, text_message);
     });
 
     console.log("[INFO] done initializing app");

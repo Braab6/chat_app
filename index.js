@@ -182,8 +182,6 @@ io.on("connection", (socket) => {
         for (i = 0; i < number; i++) {
             output[keys[i]] = messages[keys[i]];
         }
-        
-        console.log(output)
 
         io.emit("messages", output);
     });
