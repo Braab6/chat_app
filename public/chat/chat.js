@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function show_message(username, text_message, bottom = true) {
         let scrolled_down = false;
 
-        if (Math.abs(chat_area.scrollHeight - chat_area.scrollTop - chat_area.clientHeight) < 1) {
+        if (Math.abs(chat_area.scrollHeight - chat_area.scrollTop - chat_area.clientHeight) <= 15) {
             scrolled_down = true;
         }
 
