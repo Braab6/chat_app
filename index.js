@@ -155,9 +155,10 @@ io.on("connection", (socket) => {
             const time_stamp = Date.now();
             const conversation_name = data["conversation"];
             const conversation = chats[conversation_name];
-            debug(message)
-            debug(conversation_name)
-            debug("debug1: " + conversation);
+            console.log(message)
+            console.log(conversation_name)
+            console.log(conversation);
+            console.log(data)
             if (conversation["users"].includes(data["sender"])) {
                 if (conversation["messages"][time_stamp] == null) {
                     conversation["messages"][time_stamp] = [];

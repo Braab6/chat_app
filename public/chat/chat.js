@@ -43,9 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let time_last_message = 0;
     let last_message_username = null;
 
-    // Request Chats
-
-    socket.emit("request_chats", localStorage.getItem("username"));
+    const username = localStorage.getItem("username");
 
     // Functions
 
@@ -84,6 +82,10 @@ document.addEventListener("DOMContentLoaded", function () {
             root.style.setProperty("--background_color", "#000000");
         }
     };
+
+    // Request Chats
+
+    socket.emit("request_chats", );
 
     socket.on("connect_error", (error) => {
         console.log(error.message);
