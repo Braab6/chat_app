@@ -22,6 +22,9 @@ const app = express();
 const server = https.createServer(credentials, app);
 const io = socketIo(server);
 
+const admin_name = "admin";
+const admin_password = "123";
+
 // Globals
 
 app.use(express.static(__dirname + "/public",  { dotfiles: "allow" }));
@@ -61,7 +64,7 @@ let raw_chats_data;
 if (file_system.existsSync("accounts.json")) {
     raw_accounts_data = JSON.parse(file_system.readFileSync("accounts.json"));
 } else {
-    raw_accounts_data = { "admin": "123" };
+    raw_accounts_data = { admin_name : admin_password };
     log("couldn't load accounts databases", type = "FATAL");
 }
 
@@ -84,6 +87,12 @@ timer.setInterval(() => {
 
     log("[INFO] auto-saved");
 }, 1000 * 60 * 1);
+
+// Default Users
+
+if (!Object.keys(accounts).includes(admin_name)) {
+    accounts[admin_name] = admin_password;
+}
 
 // Socket Communication
 
@@ -146,7 +155,7 @@ io.on("connection", (socket) => {
             const conversation_name = data["conversation"];
             const conversation = chats[conversation_name];
 
-            debug("debug1: " + conversation["users"] + " >> " + data["sender"]);
+            debug("debug1: " + conversation + " >> " + data["sender"]);
             if (conversation["users"].includes(data["sender"])) {
                 if (conversation["messages"][time_stamp] == null) {
                     conversation["messages"][time_stamp] = [];
