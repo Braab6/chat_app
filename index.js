@@ -65,7 +65,7 @@ if (file_system.existsSync("accounts.json")) {
     raw_accounts_data = JSON.parse(file_system.readFileSync("accounts.json"));
 } else {
     raw_accounts_data = { admin_name : admin_password };
-    file_system.writeFileSync("accounts.json", JSON.stringify(accounts));
+    file_system.writeFileSync("accounts.json", JSON.stringify(raw_accounts_data));
     log("couldn't load accounts databases", type = "FATAL");
 }
 
@@ -73,7 +73,7 @@ if (file_system.existsSync("chats.json")) {
     raw_chats_data = JSON.parse(file_system.readFileSync("chats.json"));
 } else {
     raw_chats_data = { "default": { "users": ["@everyone", "default", "admin"], "messages": {} } };
-    file_system.writeFileSync("chats.json", JSON.stringify(chats));
+    file_system.writeFileSync("chats.json", JSON.stringify(raw_chats_data));
     log("couldn't load chats databases", type = "FATAL");
 }
 
