@@ -173,7 +173,7 @@ io.on("connection", (socket) => {
         const amount = data["amount"];
         const time = data["time"]
 
-        if (conversations != null && amount != null && amount <= 100) {
+        if (conversations != null && amount != null) {
             const messages = chats[conversations]["messages"];
             const output = {};
 

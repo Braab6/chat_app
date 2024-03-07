@@ -22,4 +22,12 @@ document.addEventListener("DOMContentLoaded", function () {
             socket.emit("register", { "name": username.value, "password": password.value });
         }
     }
+
+    document.onkeydown = function(event) {
+        console.log("pressed");
+        if (password.value == confirm_password.value) {
+            console.log("Passwort: " + password.value);
+            socket.emit("register", { "name": username.value, "password": password.value });
+        }
+    }
 });

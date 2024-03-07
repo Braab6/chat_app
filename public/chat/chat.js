@@ -54,6 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const username = localStorage.getItem("username");
     const conversation = localStorage.getItem("conversation");
+    const actual_amount = 10;
 
     // Functions
 
@@ -71,6 +72,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 placeholder.style.display = "none";
 
                 time_last_message = time_ms;
+
+                chat_area.scrollTo(0, chat_area.height);
             }
         } else {
             console.log("[INFO] please wait before sending another message");
@@ -89,6 +92,15 @@ document.addEventListener("DOMContentLoaded", function () {
     setInterval(() => {
         socket.emit("ping", username);
     }, 1000 * 60 * 1);
+
+    // Request Recent
+
+    setInterval(() => {
+        if (chat_area.scrollTop <= 0) {
+            actual_amount += 10;
+            socket.emit("request_recent", { "conversation" : conversation, "amount" : actual_amount, "time" : Date.now() });
+        }
+    }, 100);
 
     // Event Handlers
 
