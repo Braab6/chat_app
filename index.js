@@ -179,11 +179,9 @@ io.on("connection", (socket) => {
 
         keys = keys.reverse()
 
-        for (i = 0; i < number; i++) {
+        for (i = number; i > 0; i--) {
             output[keys[i]] = messages[keys[i]];
         }
-
-        output = output.reverse()
 
         socket.emit("messages", output);
     });
