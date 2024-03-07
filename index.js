@@ -155,18 +155,20 @@ io.on("connection", (socket) => {
             const server_message = { "sender": data["sender"], "message": data["message"] };
             const conversation_name = data["conversation"];
             const conversation = chats[conversation_name];
-            if (conversation["users"].includes(data["sender"]) || conversation["users"].includes("@everyone")) {
-                if (conversation["messages"][timestamp] == null) {
-                    conversation["messages"][timestamp] = [];
+            if (data["sender"] != null) {
+                if (conversation["users"].includes(data["sender"]) || conversation["users"].includes("@everyone")) {
+                    if (conversation["messages"][timestamp] == null) {
+                        conversation["messages"][timestamp] = [];
+                    }
+
+                    conversation["messages"][timestamp].push(server_message);
+
+                    chats[conversation_name] = conversation;
+
+                    debug("chat message");
+
+                    io.emit("chat_message", message);
                 }
-
-                conversation["messages"][timestamp].push(server_message);
-
-                chats[conversation_name] = conversation;
-
-                debug("chat message");
-
-                io.emit("chat_message", message);
             }
         }
     });
