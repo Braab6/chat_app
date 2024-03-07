@@ -68,7 +68,7 @@ if (file_system.existsSync("accounts.json")) {
 if (file_system.existsSync("chats.json")) {
     raw_chats_data = JSON.parse(file_system.readFileSync("chats.json"));
 } else {
-    raw_chats_data = { "default": { "users": ["@everyone", "default"], "messages": {} } };
+    raw_chats_data = { "default": { "users": ["@everyone", "default", "admin"], "messages": {} } };
     log("couldn't load chats databases", type = "FATAL");
 }
 
@@ -81,8 +81,9 @@ raw_chats_data = null;
 timer.setInterval(() => {
     file_system.writeFileSync("accounts.json", JSON.stringify(accounts));
     file_system.writeFileSync("chats.json", JSON.stringify(chats));
-    console.log("[INFO] auto-saved");
-}, 1000 * 60 * 5);
+
+    log("[INFO] auto-saved");
+}, 1000 * 60 * 1);
 
 // Socket Communication
 
@@ -107,13 +108,14 @@ io.on("connection", (socket) => {
     });
 
     socket.on("register", (credentials) => {
-        console.log("[INFO] user " + credentials["name"] + " registered")
+        log("user " + credentials["name"] + " registered");
+
         if (Object.keys(accounts).includes(credentials["name"])) {
-            console.log("user does already exist", type = "WARNING");
+            log("user already exists", type = "WARNING");
         } else {
             accounts[credentials["name"]] = credentials["password"]
             logged_in.push(credentials["name"]); // adds user to the list of online users
-            log("[INFO] user " + credentials["name"] + " connected");
+            log("user " + credentials["name"] + " connected");
 
             added_user = true;
             num_users += 1;
@@ -124,7 +126,7 @@ io.on("connection", (socket) => {
 
     // the given chat must be a json consisting of the name and the users of a conversation
     socket.on("new_chat", (chat) => {
-        console.log("[INFO] chat " + chat["name"] + " created");
+        log("chat " + chat["name"] + " created");
         
         const conversation = {};
         conversation["users"] = []; // list of users who can access the chat
@@ -143,7 +145,7 @@ io.on("connection", (socket) => {
             const time_stamp = Date.now();
             const conversation_name = data["conversation"];
             let conversation = chats[conversation_name];
-            console.log("debug1: " + conversation["users"] + data["sender"])
+            console.log("debug1: " + conversation["users"] + data["sender"]);
             
             if (conversation["users"].includes(data["sender"])) {
                 if (conversation["messages"][time_stamp] == null) {
