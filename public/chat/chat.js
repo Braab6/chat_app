@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Request Chat History
 
-    socket.emit("request_recent", { "conversation": conversation, "amount": 10});
+    socket.emit("request_recent", { "conversation": conversation, "amount": 10 });
 
     socket.on("messages", (data) => {
         if (data["messages"] == username) {
