@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function show_message(username, text_message) {
         const item = document.createElement("div");
         item.className = "user_message";
-        item.innerHTML = "<div class=\"message\"><span>" + username + "</span><span>:</span><span>" + text_message + "</span></span></div>";
+        item.innerHTML = "<div class=\"message\"><span>" + username + "</span><span>:</span><span>" + text_message + "</span></div>";
         chat_area.appendChild(item);
     }
 
@@ -124,8 +124,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     socket.on("messages", (data) => {
         for (const[key, value] of Object.entries(data)) {
-            console.log(value)
-            show_message(value["sender"], value["message"]);
+            for (message of value) {
+                show_message(message["sender"], message["message"]);
+            }
         }
     });
 
