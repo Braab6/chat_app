@@ -87,6 +87,10 @@ document.addEventListener("DOMContentLoaded", function () {
             scrolled_down = true;
         }
 
+        console.log("scrolled_down" + scrolled_down);
+        console.log("scrollTop" + chat_area.scrollTop);
+        console.log("scrollHeight" + chat_area.scrollHeight);
+
         const item = document.createElement("div");
         item.className = "message";
         item.innerHTML = "<span>" + username + "</span><span>:</span><span>" + text_message + "</span>";
