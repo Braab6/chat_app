@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (scrolled_down) {
-            chat_area.scrollTo(0, chat_area.scrollHeight + 500);
+            chat_area.scrollTo(0, chat_area.scrollHeight);
         }
     }
 
