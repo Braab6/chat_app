@@ -98,7 +98,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (Math.abs(chat_area.scrollHeight - chat_area.scrollTop - chat_area.clientHeight) < 1) {
             scrolled_down = true;
-            console.log("scrolled down");
         }
 
         const item = document.createElement("div");
@@ -112,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (scrolled_down) {
-            chat_area.scrollTo(0, chat_area.scrollHeight);
+            chat_area.scrollTo(0, chat_area.scrollHeight + 500);
         }
     }
 
