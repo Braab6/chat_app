@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const time_last_message = messages.length === 0 ? 0 : messages[0];
             console.log("time_last_message " + time_last_message);
             console.log(messages);
-            socket.emit("request_recent", { "conversation" : conversation, "amount" : 1, "time" : time_last_message });
+            socket.emit("request_recent", { "conversation" : conversation, "amount" : 3, "time" : time_last_message });
         }
     }, 1000);
 
