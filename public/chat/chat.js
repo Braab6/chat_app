@@ -117,10 +117,8 @@ document.addEventListener("DOMContentLoaded", function () {
         span_message.innerHTML = "";
 
         for (const string of message_split) {
-            if (string !== "" && !is_whitespace(string)) {
-                span_message.innerHTML += "<div>" + string + "</div>";
-                span_message.innerHTML += "<br/>";
-            }
+            span_message.innerHTML += "<div>" + string + "</div>";
+            span_message.innerHTML += "<br/>";
         }
 
         span_message.innerHTML = span_message.innerHTML.substring(0, span_message.innerHTML.length - "<br/>".length);
