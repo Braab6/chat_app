@@ -195,7 +195,7 @@ io.on("connection", (socket) => {
                 keys = keys.slice(keys.length - amount <= 0 ? 0 : keys.length - amount, keys.length);
             } else {
                 keys = keys.filter((timestamp) => parseInt(timestamp) < time);
-                keys = keys.slice(keys.length - amount <= 0 ? 0 : keys.length - amount, keys.length).reverse();
+                keys = keys.slice(0, amount);
             }
 
             for (const key of keys) {
