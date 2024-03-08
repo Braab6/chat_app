@@ -192,10 +192,10 @@ io.on("connection", (socket) => {
             let keys = Object.keys(messages).sort();
 
             if (time == 0) {
-                keys = keys.slice(keys.length - amount <= 0 ? 0 : keys.length - amount, keys.length);
+                keys = keys.slice(keys.length - amount <= 0 ? 0 : keys.length - amount, keys.length).reverse();
             } else {
-                keys = keys.filter((timestamp) => parseInt(timestamp) < time).reverse();
-                keys = keys.slice(keys.length - amount <= 0 ? 0 : keys.length - amount, keys.length);
+                keys = keys.filter((timestamp) => parseInt(timestamp) < time);
+                keys = keys.slice(keys.length - amount <= 0 ? 0 : keys.length - amount, keys.length).reverse();
             }
 
             for (const key of keys) {
