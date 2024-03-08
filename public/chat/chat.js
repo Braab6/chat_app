@@ -279,7 +279,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         for (const timestamp_message of Object.keys(messages)) {
             for (const message of messages[timestamp_message]) {
-                show_message(Object.keys(message), message[Object.keys(message)], true);
+                show_message(Object.keys(message), message[Object.keys(message)], false);
             }
         }
 
