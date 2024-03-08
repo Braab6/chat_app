@@ -228,8 +228,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Add Conversation Button
 
     add_conversation_button.onclick = function(event) {
-        const data = { "conversation_name": "default", "users": "users" }; // TODO: add functionality
-        socket.emit("new_chat", data);
+        //const data = { "conversation_name": "default", "users": "users" }; // TODO: add functionality
+        //socket.emit("new_chat", data);
     };
 
     // Server Logout / Time Out

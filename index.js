@@ -141,6 +141,7 @@ io.on("connection", (socket) => {
 
     // the given chat must be a json consisting of the name and the users of a conversation
     socket.on("new_chat", (chat) => {
+        /*
         log("chat " + chat["name"] + " created");
         
         const conversation = {};
@@ -149,6 +150,7 @@ io.on("connection", (socket) => {
         // value of messages is a json consisting of the sender and the message
 
         chats[chat["name"]].push(conversation); // json of all the existing conversations with the conversation-name as key
+        */
     });
     
     // data must be a json consisting of the message and the conversation where the sender is chatting in
