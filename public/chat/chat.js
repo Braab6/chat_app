@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (messages[timestamp] == null || messages[timestamp] == undefined) {
             const json = {};
             json[username] = text_message;
-            messages[key] = [ json ];
+            messages[timestamp] = [ json ];
         } else if (!Object.keys(message[timestamp]).includes(username)) {
             messages[timestamp].push({
                 "username": text_message
