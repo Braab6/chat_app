@@ -71,8 +71,7 @@
             /* Other */
 
             --px_max: 65536px;
-
-            scrollbar-gutter: stable;
+            
             scrollbar-width: thin;
             scrollbar-color: var(--color_accent);
 
@@ -138,10 +137,6 @@
             background-color: var(--color_accent);
 
             transition: width 500ms;
-        }
-
-        #users {
-            display: none;
         }
 
         /* Symbols */
@@ -260,12 +255,6 @@
         #text_input {
             width: 100%;
 
-            overflow-x: hidden;
-            overflow-y: scroll;
-
-            scrollbar-width: thin;
-            scrollbar-track-color: transparent;
-
             outline: none;
 
             cursor: text;
@@ -276,6 +265,8 @@
             line-break: strict;
             word-wrap: anywhere;
 
+            overflow-x: hidden;
+            overflow-y: scroll;
             background: transparent;
 
             font-size: 20px;

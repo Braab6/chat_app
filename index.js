@@ -217,7 +217,7 @@ io.on("connection", (socket) => {
     socket.on("ping", (data) => {
         const username = data;
 
-        if (logged_in[username] != null && Date.now() - logged_in[username] >= 1000 * 60 * 1.5) {
+        if (logged_in[username] != null && Date.now() - logged_in[username] >= 1000 * 60 * 2) {
             user_disconnected(data);
             socket.emit("logout", username);
             log(username + " timed out");
