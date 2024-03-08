@@ -238,18 +238,15 @@ document.addEventListener("DOMContentLoaded", function () {
         for (const[key, value] of Object.entries(data)) {
             for (const message of value) {
                 add_message(key, message["sender"], message["message"]);
-                console.log(message["sender"]);
-                console.log(message["message"]);
-                console.log(key);
             }
         }
 
-        //chat_area.innerHTML = "";
+        chat_area.innerHTML = "";
 
         console.log(messages);
 
         for (const timestamp_message of Object.keys(messages)) {
-            for (const message of timestamp_message) {
+            for (const message of messages[timestamp_message]) {
                 show_message(message["sender"], message["message"], false);
             }
         }
