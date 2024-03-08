@@ -1,4 +1,4 @@
-l<function is_whitespace(character) {
+function is_whitespace(character) {
     return " \f\n\r\t\v\u00A0\u2028\u2029".includes(character);
 }
 
@@ -103,8 +103,6 @@ document.addEventListener("DOMContentLoaded", function () {
             scrolled_down = true;
         }
 
-        const message_split = text_message.split('\n', "<br/>");
-
         const item = document.createElement("div");
 
         const span_username = document.createElement("span");
@@ -113,15 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         span_username.innerText = username;
         span_separator.innerText = ":";
-
-        span_message.innerHTML = "";
-
-        for (const string of message_split) {
-            span_message.innerHTML += "<div>" + string + "</div>";
-            span_message.innerHTML += "<br/>";
-        }
-
-        span_message.innerHTML = span_message.innerHTML.substring(0, span_message.innerHTML.length - "<br/>".length);
+        span_message.innerText = text_message;
 
         item.className = "message";
         item.appendChild(span_username);
@@ -223,15 +213,13 @@ document.addEventListener("DOMContentLoaded", function () {
         remove_connection();
     };
 
-    // Add Conversation Button
-
     add_conversation_button.onclick = function(event) {
-        socket.emit("new_chat", "template");
+        // 
+        
+        socket.emit("new_chat", data); // the given chat must be a json consisting of the name and the users of a conversation
     };
 
-    // Server Logout / Time Out
-
-    socket.on("logout", () => {
+    socket.on("logout", (username) => {
         remove_connection();
     })
 
@@ -290,7 +278,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const timestamp = message["timestamp"];
         const username = message["sender"];
-        const text_message = message["message"];
+        const text_message = message["message"].replaceAll('\n', "<br/>");
 
         console.log("timestamp" + timestamp);
 
