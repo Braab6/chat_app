@@ -186,30 +186,21 @@ io.on("connection", (socket) => {
 
         if (conversations != null && amount != null) {
             const messages = chats[conversations]["messages"];
-            
-            if (Object.keys(messages)[0] == time) {
-                socket.emit("messages", {});
+            const output = {};
+
+            let keys = null;
+
+            if (time == 0) {
+                keys = Object.keys(messages).slice(0, amount).reverse();
             } else {
-                const output = {};
-                let keys = null;
-
-                if (time == 0) {
-                    keys = Object.keys(messages).slice(0, amount).reverse();
-                } else {
-                    keys = Object.keys(messages).filter((timestamp) => parseInt(timestamp) < time).slice(0, amount).reverse();
-                }
-
-                for (const key of keys) {
-                    output[key] = messages[key];
-                }
-                
-                console.log(messages)
-                console.log(keys)
-                console.log(output)
-                console.log("time" + time);
-
-                socket.emit("messages", output);
+                keys = Object.keys(messages).filter((timestamp) => parseInt(timestamp) < time).slice(0, amount).reverse();
             }
+
+            for (const key of keys) {
+                output[key] = messages[key];
+            }
+            
+            socket.emit("messages", output);
         }
     });
 

@@ -237,6 +237,13 @@ document.addEventListener("DOMContentLoaded", function () {
         for (const[key, value] of Object.entries(data)) {
             for (const message of value) {
                 add_message(message["timestamp"], message["sender"], message["message"]);
+            }
+        }
+
+        chat_area.innerHTML = "";
+
+        for (const timestamp_message of messages) {
+            for (const message of timestamp_message) {
                 show_message(message["sender"], message["message"], false);
             }
         }
