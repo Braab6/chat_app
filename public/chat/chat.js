@@ -103,13 +103,13 @@ document.addEventListener("DOMContentLoaded", function () {
             scrolled_down = true;
         }
 
-        const message_split = text_message.split('\n', "<br/>");
+        const message_split = text_message.split('\n');
 
         const item = document.createElement("div");
 
-        const span_username = document.createElement("span");
-        const span_separator = document.createElement("span");
-        const span_message = document.createElement("span");
+        const span_username = document.createElement("div");
+        const span_separator = document.createElement("div");
+        const span_message = document.createElement("div");
 
         span_username.innerText = username;
         span_separator.innerText = ":";
