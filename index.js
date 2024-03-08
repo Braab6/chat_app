@@ -181,13 +181,19 @@ io.on("connection", (socket) => {
     socket.on("request_recent", (data) => { // data must be consisting of amount (amount of messages) and conversation
         const conversations = data["conversation"];
         const amount = data["amount"];
-        const time = data["time"]
+        const time = data["time"];
 
         if (conversations != null && amount != null) {
             const messages = chats[conversations]["messages"];
             const output = {};
 
-            const keys = Object.keys(messages).reverse().filter((timestamp) => timestamp < time).slice(0, amount);
+            let keys = null;
+
+            if (time == 0) {
+                keys = Object.keys(messages).reverse().slice(0, amount);
+            } else {
+                keys = Object.keys(messages).reverse().filter((timestamp) => timestamp < time).slice(1, amount);
+            }
 
             for (const key of keys) {
                 output[key] = messages[key];

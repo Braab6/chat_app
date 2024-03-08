@@ -140,11 +140,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     setInterval(() => {
         if (chat_area.scrollTop <= 0) {
-            const time_last_message = messages.length == 0 ? 0 : messages[Object.keys(messages)[0]];
+            const time_last_message = messages.length === 0 ? 0 : messages[Object.keys(messages)[0]];
             console.log("time_last_message " + time_last_message);
             socket.emit("request_recent", { "conversation" : conversation, "amount" : 100, "time" : time_last_message });
         }
-    }, 100);
+    }, 3000);
 
     // Event Handlers
 
@@ -239,7 +239,9 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        chat_area.innerText = "";
+        while (chat_area.firstChild) {
+            chat_area.removeChild(chat_area.lastChild);
+        }
 
         for (const message of messages) {
             show_message(message["sender"], message["message"], false);
