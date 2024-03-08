@@ -17,8 +17,6 @@ function text_input_unfocus(event) {
     const text_input = document.getElementById("text_input");
     const placeholder = document.getElementById("placeholder");
 
-    console.log(text_input.innerText);
-
     if (text_input.innerText === "" || is_whitespace(text_input.innerText)) {
         placeholder.style.display = "inline-block";
     }
@@ -67,6 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (message !== "") {
                 console.log("[INFO] sending_message");
+
                 socket.emit("chat_message", { "conversation": localStorage.getItem("conversation"), "message": message, "sender": username });
 
                 text_input.innerText = "";
@@ -88,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
             };
         } else {
             messages[timestamp].push({
-                "username": text_message // TODO: fix
+                "username": text_message
             });
         }
     }
@@ -126,6 +125,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    function remove_connection() {
+        localStorage.removeItem("conversation");
+        localStorage.removeItem("username");
+
+        window.location.href = "https://santo-chat.northeurope.cloudapp.azure.com";
+    }
+
     // Logout Ping
 
     setInterval(() => {
@@ -145,11 +151,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // Event Handlers
 
     document.onkeydown = function(event) {
-        if ((document.activeElement.id === text_input.id || document.activeElement.tagName === "BODY")) {
-            if (event.key === "Enter" && !event.shiftKey) {
-                event.preventDefault();
-                send_message();
-            } else {
+        if ((document.activeElement.id === text_input.id || document.activeElement.tagName === "BODY") && event.key === "Enter" && !event.shiftKey) {
+            event.preventDefault();
+            send_message();
+        } else if (document.activeElement.id !== text_input.id) {
+            if (event.key !== "ArrowLeft" && event.key !== "Shift" && event.key !== "Control" && event.key !== "CapsLock" && event.key !== "Alt" && event.key !== "AltGraph" && event.key !== "Escape" && event.key !== "NumLock" && event.key !== "Meta") {
                 text_input.focus();
 
                 let range;
@@ -199,13 +205,14 @@ document.addEventListener("DOMContentLoaded", function () {
     // Logout Button
 
     logout_button.onclick = function(event) {
-        localStorage.removeItem("conversation");
-        localStorage.removeItem("username");
-
         socket.emit("logout", username);
 
-        window.location.href = "https://santo-chat.northeurope.cloudapp.azure.com";
+        remove_connection();
     };
+
+    socket.on("disconnect", (username) => {
+        remove_connection();
+    })
 
     // Connection Error
 
@@ -228,8 +235,6 @@ document.addEventListener("DOMContentLoaded", function () {
     socket.emit("request_recent", { "conversation": conversation, "amount": 10, "time": Date.now() });
 
     socket.on("messages", (data) => {
-        console.log(data);
-
         for (const[key, value] of Object.entries(data)) {
             for (const message of value) {
                 add_message(message["timestamp"], message["sender"], message["message"]);

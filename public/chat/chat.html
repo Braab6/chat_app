@@ -18,7 +18,6 @@
 
         <link rel="icon" type="image/x-icon" href="unset"/>
         <title>Chat App</title>
-        <link rel="icon" href="https://static-00.iconduck.com/assets.00/chat-icon-1024x1024-o88plv3x.png" type="image/chat-bubble">
 
         <!-- <link rel="stylesheet" href="/public/style.css"/> -->
 
@@ -31,12 +30,8 @@
     </head>
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
         @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
-
-        @font-face {
-            src: local("sans-serif");
-            font-family: "JetBrains Mono", sans-serif;
-        }
 
         * {
             margin: 0;
@@ -56,7 +51,7 @@
             /* Light Mode Colors */
 
             --light_mode_color_text: #01060C;
-            --light_mode_color_background: #e9e9e9;
+            --light_mode_color_background: #F4F4F4;
             --light_mode_color_primary: #7F7F7F;
             --light_mode_color_secondary: #C9C9C9;
             --light_mode_color_accent: #93BDC6;
@@ -111,7 +106,7 @@
 
             text-decoration: none;
 
-            font-family: "JetBrains Mono", sans-serif;
+            font-family: "Quicksand", sans-serif;
         }
 
         /* Tags */
@@ -226,6 +221,7 @@
             overflow-y: scroll;
 
             scrollbar-width: thin;
+            scrollbar-track-color: transparent;
 
             display: flex;
             flex-direction: column;
@@ -342,35 +338,17 @@
             font-size: 16px;
         }
 
-        .message:nth-child(1) {
-            font-weight: bolder;
-        }
-
-        #contact-list {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .contact {
-            border-bottom: 1px solid #229b9b;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            text-align: center;
-            font-size: 50px;
-        }
-
-        .contact:hover {
-            background-color: #2fa99a;
+        .message > span:nth-child(3) {
+            font-weight: lighter;
         }
     </style>
 
-    <body translate="no" style="background-color: var(--color_background); transition: all 1s;">
+    <body translate="no" style="background-color: var(--color_background);">
         <div style="padding: 25px 25px; width: 100%; height: 100%; overflow-x: hidden; overflow-y: hidden; display: flex; flex-direction: column; align-items: center; place-items: flex-start; gap: 15px 15px;">
             <div style="width: 100%; display: flex; flex-direction: row; justify-content: space-between;">
                 <div id="menu_navigation" class="navigation">
                     <input id="dark_mode_toggle" class="dark_mode" type="checkbox">
-                    <div style="width: 2px; height: 40px; border-radius: 2px; background-color: #263238;"></div>
+                    <div style="width: 2px; height: 40px; border-radius: 2px; background-color: var(--color_text);"></div>
                     <input id="expand_toggle" class="toggle" type="checkbox"><label for="expand_toggle" class="expand"><span class="material-symbols-outlined outline_symbol">expand_less</span></label>
                 </div>
                 <div id="profile_navigation" class="navigation">
@@ -382,7 +360,8 @@
             </div>
             <div style="width: 100%; height: 100%; overflow-y: hidden; display: flex; flex-direction: row; gap: 15px 15px;">
                 <div id="chat_area">
-
+                    <div class="message"><span>username</span><span>:</span><span>message</span></div>
+                    <div class="message"><span>username</span><span>:</span><span>message</span></div>
                 </div>
                 <div id="conversations" style="width: 25%; background-color: var(--color_secondary);">
 
