@@ -45,6 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const socket = io();
 
     const message_cooldown_ms = 500;
+    const request_message_amount = 5;
 
     // Globals
 
@@ -142,14 +143,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     setInterval(() => {
         if (chat_area.scrollTop <= 0) {
-            const keys = Object.keys(messages).reverse();
             const time_last_message = messages.length === 0 ? 0 : Object.keys(messages).reverse()[0];
-            console.log("time_last_message " + time_last_message);
-            console.log(messages[keys[0]]);
-            console.log("time_last_message " + time_last_message);
-            socket.emit("request_recent", { "conversation" : conversation, "amount" : 3, "time" : time_last_message });
+            socket.emit("request_recent", { "conversation" : conversation, "amount" : request_message_amount, "time" : time_last_message });
         }
-    }, 1000);
+    }, 3000);
 
     // Event Handlers
 
@@ -256,17 +253,28 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
+        let i = 0;
+        let height = 0;
+
+        for (const element of chat_area.children) {
+            if (i++ < request_message_amount) {
+                height += element.height;
+            } else {
+                break;
+            }
+        }
+
         chat_area.innerHTML = "";
 
         console.log(messages);
-
-        // { time : [ { "username" : "message"} ] }
 
         for (const timestamp_message of Object.keys(messages)) {
             for (const message of messages[timestamp_message]) {
                 show_message(Object.keys(message), message[Object.keys(message)], false);
             }
         }
+
+        chat_area.scrollTop = height;
     });
 
     // Chat Message

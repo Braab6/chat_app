@@ -200,9 +200,8 @@ io.on("connection", (socket) => {
 
             for (const key of keys) {
                 output[key] = messages[key];
-                console.log(key + " " + output[key]);
             }
-            console.log("output[key]");
+            
             socket.emit("messages", output);
         }
         //*/
