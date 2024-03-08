@@ -238,7 +238,9 @@ document.addEventListener("DOMContentLoaded", function () {
         for (const[key, value] of Object.entries(data)) {
             for (const message of value) {
                 add_message(key, message["sender"], message["message"]);
-                console.log("timestamp" + key);
+                console.log(message["sender"]);
+                console.log(message["message"]);
+                console.log(key);
             }
         }
 
