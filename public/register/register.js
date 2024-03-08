@@ -29,8 +29,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (event.key === "Enter" && password.value == confirm_password.value && password.value != "") {
             console.log("Passwort: " + password.value);
             socket.emit("register", { "name": username.value, "password": password.value });
-        } else {
-            alert("irgendwas")
         }
     }
 });
