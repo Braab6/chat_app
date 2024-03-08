@@ -228,6 +228,8 @@ document.addEventListener("DOMContentLoaded", function () {
     socket.emit("request_recent", { "conversation": conversation, "amount": 10, "time": Date.now() });
 
     socket.on("messages", (data) => {
+        console.log(data);
+
         for (const[key, value] of Object.entries(data)) {
             for (const message of value) {
                 add_message(message["timestamp"], message["sender"], message["message"]);

@@ -56,8 +56,9 @@ function debug(message) {
     }
 }
 
-function remove_user(log) {
-    
+function user_disconnected(data) {
+    num_users -= 1;
+    delete logged_in[data];
 }
 
 // Auto Save & Load
@@ -187,12 +188,8 @@ io.on("connection", (socket) => {
 
             const keys = Object.keys(messages).reverse().filter((timestamp) => timestamp < time);
 
-            console.log(messages)
-            console.log(keys)
-
             for (i = amount; i >= 0; i--) {
                 output[keys[i]] = messages[keys[i]];
-                output[keys[i]]["timestamp"] = keys[i];
             }
             
             console.log(output)
@@ -220,8 +217,7 @@ io.on("connection", (socket) => {
         const username = data;
 
         if (logged_in[username] != null && Date.now() - logged_in[username] >= 1000 * 60 * 0.5) {
-            num_users -= 1;
-            delete logged_in[data];
+            user_disconnected(data);
             log(username + " timed out");
         }
         
@@ -229,8 +225,7 @@ io.on("connection", (socket) => {
     });
 
     socket.on("logout", (data) => {
-        num_users -= 1;
-        delete logged_in[data];
+        user_disconnected(data);
         log(data + " disconnected");
     });
 
