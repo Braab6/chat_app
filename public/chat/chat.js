@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const username = localStorage.getItem("username");
     const conversation = localStorage.getItem("conversation");
 
-    const messages = [];
+    const messages = {};
 
     // Functions
 
@@ -244,7 +244,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         console.log(messages);
 
-        for (const timestamp_message of messages) {
+        for (const timestamp_message of Object.keys(messages)) {
             for (const message of timestamp_message) {
                 show_message(message["sender"], message["message"], false);
             }
