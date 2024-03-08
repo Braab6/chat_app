@@ -245,9 +245,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
         console.log(messages);
 
+        // { time : [ { "username" : "message"} ] }
+
         for (const timestamp_message of Object.keys(messages)) {
             for (const message of messages[timestamp_message]) {
-                show_message(message["sender"], message["message"], false);
+                show_message(message["username"], message["message"], false);
             }
         }
     });
