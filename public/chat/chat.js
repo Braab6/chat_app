@@ -1,4 +1,4 @@
-function is_whitespace(character) {
+l<function is_whitespace(character) {
     return " \f\n\r\t\v\u00A0\u2028\u2029".includes(character);
 }
 
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function add_message(timestamp, username, text_message) {
-        if (messages[timestamp] == null || messages[timestamp] == undefined) {
+        if (messages[timestamp] == null || messages[timestamp] === undefined) {
             const json = {};
             json[username] = text_message;
             messages[timestamp] = [ json ];
@@ -103,6 +103,8 @@ document.addEventListener("DOMContentLoaded", function () {
             scrolled_down = true;
         }
 
+        const message_split = text_message.split('\n', "<br/>");
+
         const item = document.createElement("div");
 
         const span_username = document.createElement("span");
@@ -111,7 +113,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         span_username.innerText = username;
         span_separator.innerText = ":";
-        span_message.innerText = text_message;
+
+        span_message.innerHTML = "";
+
+        for (const string of message_split) {
+            span_message.innerHTML += "<div>" + string + "</div>";
+            span_message.innerHTML += "<br/>";
+        }
+
+        span_message.innerHTML = span_message.innerHTML.substring(0, span_message.innerHTML.length - "<br/>".length);
 
         item.className = "message";
         item.appendChild(span_username);
@@ -193,6 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
             root.style.setProperty("--color_secondary", root_variables.getPropertyValue("--light_mode_color_secondary"));
             root.style.setProperty("--color_accent", root_variables.getPropertyValue("--light_mode_color_accent"));
 
+            root.style.setProperty("--color_selection", root_variables.getPropertyValue("--light_mode_color_selection"));
             root.style.setProperty("--color_shadow", root_variables.getPropertyValue("--light_mode_color_shadow"));
         } else {
             root.style.setProperty("--color_text", root_variables.getPropertyValue("--dark_mode_color_text"));
@@ -201,6 +212,7 @@ document.addEventListener("DOMContentLoaded", function () {
             root.style.setProperty("--color_secondary", root_variables.getPropertyValue("--dark_mode_color_secondary"));
             root.style.setProperty("--color_accent", root_variables.getPropertyValue("--dark_mode_color_accent"));
 
+            root.style.setProperty("--color_selection", root_variables.getPropertyValue("--dark_mode_color_selection"));
             root.style.setProperty("--color_shadow", root_variables.getPropertyValue("--dark_mode_color_shadow"));
         }
     };
@@ -213,13 +225,15 @@ document.addEventListener("DOMContentLoaded", function () {
         remove_connection();
     };
 
+    // Add Conversation Button
+
     add_conversation_button.onclick = function(event) {
-        // 
-        
-        socket.emit("new_chat", data); // the given chat must be a json consisting of the name and the users of a conversation
+        socket.emit("new_chat", "template");
     };
 
-    socket.on("logout", (username) => {
+    // Server Logout / Time Out
+
+    socket.on("logout", () => {
         remove_connection();
     })
 
@@ -278,7 +292,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const timestamp = message["timestamp"];
         const username = message["sender"];
-        const text_message = message["message"].replaceAll('\n', "<br/>");
+        const text_message = message["message"];
 
         console.log("timestamp" + timestamp);
 
