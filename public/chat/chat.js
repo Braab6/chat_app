@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function add_message(timestamp, username, text_message) {
-        if (messages[timestamp] == null) {
+        if (messages[timestamp] == null || messages[timestamp] == undefined) {
             messages[timestamp] = [ { "username": text_message } ];
         } else {
             messages[timestamp].push({
