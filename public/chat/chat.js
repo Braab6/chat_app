@@ -82,7 +82,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function add_message(timestamp, username, text_message) {
         if (messages[timestamp] == null || messages[timestamp] == undefined) {
-            messages[timestamp] = [ { "username": text_message } ];
+            const json = {};
+            json[username] = text_message;
+            messages[key] = [ json ];
         } else if (!Object.keys(message[timestamp]).includes(username)) {
             messages[timestamp].push({
                 "username": text_message
@@ -238,8 +240,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         for (const[key, value] of Object.entries(data)) {
             for (const message of value) {
-                const username = message["sender"];
-                messages[key] = [ { username: message["message"] } ];
+                const json = {};
+                json[message["sender"]] = message["message"]
+                messages[key] = [ json ];
             }
         }
 
