@@ -142,6 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (chat_area.scrollTop <= 0) {
             const time_last_message = messages.length === 0 ? 0 : Object.keys(messages)[0];
             console.log("time_last_message " + time_last_message);
+            console.log(messages);
             socket.emit("request_recent", { "conversation" : conversation, "amount" : 100, "time" : time_last_message });
         }
     }, 3000);
