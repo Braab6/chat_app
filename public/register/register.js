@@ -25,17 +25,16 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("Passwort: " + password.value);
             socket.emit("register", { "name": username.value, "password": password.value });
         } else {
-            alert("Du scheinst nicht tippen zu können");
+            alert("the passwords are not matching");
         }
     }
 
     document.onkeydown = function(event) {
         if (event.key === "Enter") {
             if (password.value == confirm_password.value && password.value != "") {
-                console.log("Passwort: " + password.value);
                 socket.emit("register", { "name": username.value, "password": password.value });
             } else {
-                alert("Du scheinst nicht tippen zu können");
+                alert("the passwords are not matching");
             }
         }
     }

@@ -36,6 +36,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const dark_mode_toggle = document.getElementById("dark_mode_toggle");
     const logout_button = document.getElementById("logout_button");
 
+    const add_conversation_button = document.getElementById("add_conversation");
+
     const navigation = document.getElementById("navigation");
     const chat_area = document.getElementById("chat_area");
 
@@ -209,6 +211,12 @@ document.addEventListener("DOMContentLoaded", function () {
         socket.emit("logout", username);
 
         remove_connection();
+    };
+
+    add_conversation_button.onclick = function(event) {
+
+        console.log("button funktioniert")
+
     };
 
     socket.on("logout", (username) => {
