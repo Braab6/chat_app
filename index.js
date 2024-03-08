@@ -187,10 +187,10 @@ io.on("connection", (socket) => {
             const messages = chats[conversations]["messages"];
             const output = {};
 
-            const keys = Object.keys(messages).reverse().filter((timestamp) => timestamp < time);
+            const keys = Object.keys(messages).reverse().filter((timestamp) => timestamp < time).slice(0, amount);
 
-            for (i = amount; i >= 0; i--) {
-                output[keys[i]] = messages[keys[i]];
+            for (const key of keys) {
+                output[key] = messages[key];
             }
             
             console.log(output)

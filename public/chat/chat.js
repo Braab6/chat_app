@@ -239,7 +239,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        chat_area.innerHTML = "";
+        chat_area.innerText = "";
 
         for (const message of messages) {
             show_message(message["sender"], message["message"], false);
