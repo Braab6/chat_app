@@ -275,7 +275,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("timestamp" + timestamp);
 
         add_message(timestamp, username, text_message);
-        show_message(username, text_message);
+        show_message(username, text_message, true);
     });
 
     // Done Info
