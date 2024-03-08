@@ -3,6 +3,7 @@ const https = require("https");
 const express = require("express");
 const socketIo = require("socket.io");
 const timer = require("node:timers");
+const { reverse } = require("dns");
 
 // Libaries
 
@@ -190,9 +191,9 @@ io.on("connection", (socket) => {
             let keys = null;
 
             if (time == 0) {
-                keys = Object.keys(messages).slice(0, amount);
+                keys = Object.keys(messages).slice(0, amount).reverse();
             } else {
-                keys = Object.keys(messages).filter((timestamp) => parseInt(timestamp) < time).slice(0, amount);
+                keys = Object.keys(messages).filter((timestamp) => parseInt(timestamp) < time).slice(0, amount).reverse();
             }
 
             for (const key of keys) {
