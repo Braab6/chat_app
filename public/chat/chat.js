@@ -82,9 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function add_message(timestamp, username, text_message) {
         if (messages[timestamp] == null) {
-            messages[timestamp] = {
-                "username": text_message
-            };
+            messages[timestamp] = [ { "username": text_message } ];
         } else {
             messages[timestamp].push({
                 "username": text_message
@@ -210,7 +208,7 @@ document.addEventListener("DOMContentLoaded", function () {
         remove_connection();
     };
 
-    socket.on("disconnect", (username) => {
+    socket.on("logout", (username) => {
         remove_connection();
     })
 
