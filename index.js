@@ -199,6 +199,7 @@ io.on("connection", (socket) => {
                 output[key] = messages[key];
             }
             
+            console.log(keys)
             console.log(output)
 
             socket.emit("messages", output);
