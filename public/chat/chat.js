@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const json = {};
             json[username] = text_message;
             messages[timestamp] = [ json ];
-        } else if (!Object.keys(message[timestamp]).includes(username)) {
+        } else {
             messages[timestamp].push({
                 "username": text_message
             });
@@ -238,11 +238,19 @@ document.addEventListener("DOMContentLoaded", function () {
     socket.on("messages", (data) => {
         console.log(data);
 
-        for (const[key, value] of Object.entries(data)) {
-            for (const message of value) {
+        for (const key of Object.keys(data)) {
+            const timestamp = key;
+
+            messages[timestamp] = [];
+
+            for (const message of data[value]) {
+                const username = message["sender"];
+                const text_message = message["message"];
+
                 const json = {};
-                json[message["sender"]] = message["message"]
-                messages[key] = [ json ];
+                json[username] = text_message;
+
+                messages[timestamp].push({ json });
             }
         }
 
