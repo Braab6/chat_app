@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
             };
         } else {
             messages[timestamp].push({
-                "username": text_message
+                "username": text_message // TODO: fix
             });
         }
     }

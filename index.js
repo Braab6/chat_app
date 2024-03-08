@@ -30,7 +30,7 @@ const admin_password = "123";
 app.use(express.static(__dirname + "/public",  { dotfiles: "allow" }));
 
 let num_users = 0; // the number of active users
-let logged_in = [];
+let logged_in = {};
 
 // Functions
 
@@ -99,11 +99,10 @@ if (!Object.keys(accounts).includes(admin_name)) {
 // Socket Communication
 
 io.on("connection", (socket) => {
-
     socket.on("login", (credentials) => {
         if (Object.keys(accounts).includes(credentials["name"])) {
             if (accounts[credentials["name"]] == credentials["password"]) { // checks if the password is correct
-                logged_in.push(credentials["name"]);
+                logged_in[credentials["name"]] = Date.now();
                 
                 num_users += 1;
 
@@ -123,7 +122,7 @@ io.on("connection", (socket) => {
             log("user already exists", type = "WARNING");
         } else {
             accounts[credentials["name"]] = credentials["password"]
-            logged_in.push(credentials["name"]);
+            logged_in[credentials["name"]] = Date.now();
             
             log("user " + credentials["name"] + " registered");
 
@@ -184,9 +183,12 @@ io.on("connection", (socket) => {
 
             const keys = Object.keys(messages).reverse().filter((timestamp) => timestamp < time);
 
+            console.log(messages)
+            console.log(keys)
+
             for (i = amount; i >= 0; i--) {
                 output[keys[i]] = messages[keys[i]];
-                //output[keys[i]]["timestamp"] = keys[i];
+                output[keys[i]]["timestamp"] = keys[i];
             }
 
             socket.emit("messages", output);
@@ -208,10 +210,22 @@ io.on("connection", (socket) => {
         io.emit("chats", { "chats" : output });
     });
 
+    const online_clients = {};
+
+    socket.on("ping", (data) => {
+        const username = data;
+
+        if (Date.now() - logged_in[username] >= 1.5 * 1000){
+            
+        }
+        
+        logged_in[username] = Date.now();
+    });
+
     socket.on("logout", (data) => {
         num_users -= 1;
-        logged_in.splice(data);
-        log(data + " disconnected")
+        delete logged_in[data];
+        log(data + " disconnected");
     });
 
     socket.on("add_conversation", (data) => {
