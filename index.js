@@ -126,6 +126,7 @@ io.on("connection", (socket) => {
 
         if (Object.keys(accounts).includes(credentials["name"])) {
             log("user already exists", type = "WARNING");
+            socket.emit("exist", null);
         } else {
             accounts[credentials["name"]] = credentials["password"]
             logged_in[credentials["name"]] = Date.now();

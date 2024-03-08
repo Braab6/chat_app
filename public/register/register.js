@@ -14,6 +14,10 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("Authenticated with username " + p);
         window.location.href = "https://santo-chat.northeurope.cloudapp.azure.com/chat/chat.html";
     });
+
+    socket.on("exist", () => {
+        alert("The user already exists");
+    });
     
     register_button.onclick = function(event) {
         console.log("pressed");
@@ -21,14 +25,18 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("Passwort: " + password.value);
             socket.emit("register", { "name": username.value, "password": password.value });
         } else {
-            alert("euhsfhobjuw")
+            alert("Du scheinst nicht tippen zu können");
         }
     }
 
     document.onkeydown = function(event) {
-        if (event.key === "Enter" && password.value == confirm_password.value && password.value != "") {
-            console.log("Passwort: " + password.value);
-            socket.emit("register", { "name": username.value, "password": password.value });
+        if (event.key === "Enter") {
+            if (password.value == confirm_password.value && password.value != "") {
+                console.log("Passwort: " + password.value);
+                socket.emit("register", { "name": username.value, "password": password.value });
+            }
+        } else {
+            alert("Du scheinst nicht tippen zu können");
         }
     }
 });
