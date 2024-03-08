@@ -239,16 +239,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 show_message(message["sender"], message["message"], false);
             }
         }
-
-        while (chat_area.firstChild) {
-            chat_area.removeChild(chat_area.lastChild);
-        }
-
-        for (const timestamp_message of messages) {
-            for (const message of timestamp_message) {
-                show_message(message["sender"], message["message"], false);
-            }
-        }
     });
 
     // Chat Message

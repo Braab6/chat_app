@@ -181,7 +181,7 @@ io.on("connection", (socket) => {
     socket.on("request_recent", (data) => { // data must be consisting of amount (amount of messages) and conversation
         const conversations = data["conversation"];
         const amount = data["amount"];
-        const time = data["time"];
+        const time = parseInt(data["time"]);
 
         if (conversations != null && amount != null) {
             const messages = chats[conversations]["messages"];
