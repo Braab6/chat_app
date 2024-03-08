@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     socket.on("wrong_password", () => {
-        alert("Password does not match")
+        alert("combination of username and password is incorrect!")
     });
     
     login_button.onclick = function(event) {
