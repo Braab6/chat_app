@@ -200,8 +200,10 @@ io.on("connection", (socket) => {
                 output[key] = messages[key];
             }
             
+            console.log(messages)
             console.log(keys)
             console.log(output)
+            console.log("time" + time);
 
             socket.emit("messages", output);
         }
