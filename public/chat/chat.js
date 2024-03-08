@@ -233,7 +233,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Request Chat History
 
-    socket.emit("request_recent", { "conversation": conversation, "amount": 10, "time": Date.now() });
+    socket.emit("request_recent", { "conversation": conversation, "amount": 3, "time": 0 });
 
     socket.on("messages", (data) => {
         console.log(data);
