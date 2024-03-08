@@ -238,7 +238,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         for (const[key, value] of Object.entries(data)) {
             for (const message of value) {
-                messages[timestamp] = [ { "username": text_message } ];
+                const username = message["sender"];
+                messages[key] = [ { username: message["message"] } ];
             }
         }
 
