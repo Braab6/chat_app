@@ -190,10 +190,10 @@ io.on("connection", (socket) => {
             let keys = null;
 
             if (time == 0) {
-                keys = Object.keys(messages).reverse().slice(1, amount);
+                keys = Object.keys(messages).slice(1, amount);
             } else {
-                keys = Object.keys(messages).reverse().filter((timestamp) => parseInt(timestamp) < time);
-                keys = keys.splice(0, amount);
+                keys = Object.keys(messages).filter((timestamp) => parseInt(timestamp) < time);
+                keys = keys.slice(0, amount);
             }
 
             for (const key of keys) {
