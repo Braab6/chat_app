@@ -236,6 +236,7 @@ document.addEventListener("DOMContentLoaded", function () {
         for (const[key, value] of Object.entries(data)) {
             for (const message of value) {
                 add_message(message["timestamp"], message["sender"], message["message"]);
+                show_message(message["sender"], message["message"], false);
             }
         }
 
@@ -243,8 +244,10 @@ document.addEventListener("DOMContentLoaded", function () {
             chat_area.removeChild(chat_area.lastChild);
         }
 
-        for (const message of messages) {
-            show_message(message["sender"], message["message"], false);
+        for (const timestamp_message of messages) {
+            for (const message of timestamp_message) {
+                show_message(message["sender"], message["message"], false);
+            }
         }
     });
 

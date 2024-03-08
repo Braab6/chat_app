@@ -192,7 +192,7 @@ io.on("connection", (socket) => {
             if (time == 0) {
                 keys = Object.keys(messages).reverse().slice(0, amount);
             } else {
-                keys = Object.keys(messages).reverse().filter((timestamp) => timestamp < time).slice(1, amount);
+                keys = Object.keys(messages).reverse().filter((timestamp) => Integer.parse(timestamp) < time).slice(1, amount);
             }
 
             for (const key of keys) {
