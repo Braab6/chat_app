@@ -240,7 +240,9 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        chat_area.innerHTML = "";
+        //chat_area.innerHTML = "";
+
+        console.log(messages);
 
         for (const timestamp_message of messages) {
             for (const message of timestamp_message) {
