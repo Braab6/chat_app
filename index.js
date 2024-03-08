@@ -56,6 +56,10 @@ function debug(message) {
     }
 }
 
+function remove_user(log) {
+    
+}
+
 // Auto Save & Load
 
 let raw_accounts_data;
@@ -190,6 +194,8 @@ io.on("connection", (socket) => {
                 output[keys[i]] = messages[keys[i]];
                 output[keys[i]]["timestamp"] = keys[i];
             }
+            
+            console.log(output)
 
             socket.emit("messages", output);
         }
@@ -210,13 +216,13 @@ io.on("connection", (socket) => {
         io.emit("chats", { "chats" : output });
     });
 
-    const online_clients = {};
-
     socket.on("ping", (data) => {
         const username = data;
 
-        if (Date.now() - logged_in[username] >= 1.5 * 1000){
-            
+        if (logged_in[username] != null && Date.now() - logged_in[username] >= 1000 * 60 * 0.5) {
+            num_users -= 1;
+            delete logged_in[data];
+            log(username + " timed out");
         }
         
         logged_in[username] = Date.now();
