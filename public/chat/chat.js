@@ -243,7 +243,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             messages[timestamp] = [];
 
-            for (const message of data[value]) {
+            for (const message of data[key]) {
                 const username = message["sender"];
                 const text_message = message["message"];
 
