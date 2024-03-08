@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setInterval(() => {
         if (chat_area.scrollTop <= 0) {
             const keys = Object.keys(messages).reverse();
-            const time_last_message = messages.length === 0 ? 0 : messages[keys[0]];
+            const time_last_message = messages.length === 0 ? 0 : Object.keys(messages).reverse()[0];
             console.log("time_last_message " + time_last_message);
             console.log(messages[keys[0]]);
             console.log("time_last_message " + time_last_message);
