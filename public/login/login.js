@@ -8,10 +8,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const login_button = document.getElementById("login_button");
 
     socket.on("authenticated", (p) => {
-        localStorage.setItem("username", p);
-        localStorage.setItem("conversation", "default");
-        console.log("Authenticated with username " + p);
-        window.location.href = "https://santo-chat.northeurope.cloudapp.azure.com/chat/chat.html";
+        if (p === "success") {
+            localStorage.setItem("username", username.value);
+            localStorage.setItem("conversation", "default");
+            console.log("Authenticated with username " + username.value);
+            window.location.href = "https://santo-chat.northeurope.cloudapp.azure.com/chat/chat.html";
+        } else {
+            console.log("Login failed");
+            alert("username and password combination is wrong!");
+        }
     });
     
     login_button.onclick = function(event) {
