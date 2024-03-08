@@ -1,4 +1,4 @@
-l<function is_whitespace(character) {
+function is_whitespace(character) {
     return " \f\n\r\t\v\u00A0\u2028\u2029".includes(character);
 }
 
@@ -203,7 +203,6 @@ document.addEventListener("DOMContentLoaded", function () {
             root.style.setProperty("--color_secondary", root_variables.getPropertyValue("--light_mode_color_secondary"));
             root.style.setProperty("--color_accent", root_variables.getPropertyValue("--light_mode_color_accent"));
 
-            root.style.setProperty("--color_selection", root_variables.getPropertyValue("--light_mode_color_selection"));
             root.style.setProperty("--color_shadow", root_variables.getPropertyValue("--light_mode_color_shadow"));
         } else {
             root.style.setProperty("--color_text", root_variables.getPropertyValue("--dark_mode_color_text"));
@@ -212,7 +211,6 @@ document.addEventListener("DOMContentLoaded", function () {
             root.style.setProperty("--color_secondary", root_variables.getPropertyValue("--dark_mode_color_secondary"));
             root.style.setProperty("--color_accent", root_variables.getPropertyValue("--dark_mode_color_accent"));
 
-            root.style.setProperty("--color_selection", root_variables.getPropertyValue("--dark_mode_color_selection"));
             root.style.setProperty("--color_shadow", root_variables.getPropertyValue("--dark_mode_color_shadow"));
         }
     };
