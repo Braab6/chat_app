@@ -195,14 +195,14 @@ io.on("connection", (socket) => {
                 keys = keys.slice(keys.length - amount <= 0 ? 0 : keys.length - amount, keys.length).reverse();
             } else {
                 keys = keys.filter((timestamp) => parseInt(timestamp) < time);
-                console.log(keys)
-                keys = keys.slice(keys.length - amount <= 0 ? 0 : keys.length - amount, keys.length).reverse();
+                //keys = keys.slice(keys.length - amount <= 0 ? 0 : keys.length - amount, keys.length).reverse();
             }
 
             for (const key of keys) {
                 output[key] = messages[key];
+                console.log(output[key]);
             }
-            
+            console.log("output[key]");
             socket.emit("messages", output);
         }
         //*/
