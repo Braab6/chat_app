@@ -250,7 +250,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const json = {};
                 json[username] = text_message;
 
-                messages[timestamp].push({ json });
+                messages[timestamp].push(json);
             }
         }
 

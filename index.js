@@ -184,6 +184,7 @@ io.on("connection", (socket) => {
         const amount = data["amount"];
         const time = parseInt(data["time"]);
 
+        //*
         if (conversations != null && amount != null) {
             const messages = chats[conversations]["messages"];
             const output = {};
@@ -203,6 +204,7 @@ io.on("connection", (socket) => {
             
             socket.emit("messages", output);
         }
+        //*/
     });
 
     socket.on("request_chats", (data) => {
