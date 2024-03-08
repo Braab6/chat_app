@@ -45,7 +45,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const socket = io();
 
     const message_cooldown_ms = 500;
-    const request_message_amount = 5;
+    const initial_request_message_amount = 50;
+    const request_message_amount = 25;
 
     // Globals
 
@@ -146,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const time_last_message = messages.length === 0 ? 0 : Object.keys(messages).reverse()[0];
             socket.emit("request_recent", { "conversation" : conversation, "amount" : request_message_amount, "time" : time_last_message });
         }
-    }, 3000);
+    }, 1000);
 
     // Event Handlers
 
@@ -232,11 +233,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Request Chat History
 
-    socket.emit("request_recent", { "conversation": conversation, "amount": 3, "time": 0 });
+    socket.emit("request_recent", { "conversation": conversation, "amount": initial_request_message_amount, "time": 0 });
 
     socket.on("messages", (data) => {
-        console.log(data);
-
         for (const key of Object.keys(data)) {
             const timestamp = key;
 
@@ -253,20 +252,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        let i = 0;
-        let height = 0;
-
-        for (const element of chat_area.children) {
-            if (i++ < request_message_amount) {
-                height += element.height;
-            } else {
-                break;
-            }
-        }
-
         chat_area.innerHTML = "";
-
-        console.log(messages);
 
         for (const timestamp_message of Object.keys(messages)) {
             for (const message of messages[timestamp_message]) {
@@ -274,7 +260,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        chat_area.scrollTop = height;
+        chat_area.scrollTop = 0;
     });
 
     // Chat Message
