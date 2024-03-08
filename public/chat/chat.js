@@ -237,6 +237,7 @@ document.addEventListener("DOMContentLoaded", function () {
         for (const[key, value] of Object.entries(data)) {
             for (const message of value) {
                 add_message(message["timestamp"], message["sender"], message["message"]);
+                console.log("timestapm" + message["timestamp"]);
             }
         }
 
@@ -259,6 +260,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const timestamp = message["timestamp"];
         const username = message["sender"];
         const text_message = message["message"].replaceAll('\n', "<br/>");
+
+        console.log("timestamp" + timestamp);
 
         add_message(timestamp, username, text_message);
         show_message(username, text_message);
