@@ -117,8 +117,10 @@ document.addEventListener("DOMContentLoaded", function () {
         span_message.innerHTML = "";
 
         for (const string of message_split) {
-            span_message.innerHTML += "<div>" + string + "</div>";
-            span_message.innerHTML += "<br/>";
+            if (string !== "" && !is_whitespace(string)) {
+                span_message.innerHTML += "<div>" + string + "</div>";
+                span_message.innerHTML += "<br/>";
+            }
         }
 
         span_message.innerHTML = span_message.innerHTML.substring(0, span_message.innerHTML.length - "<br/>".length);
@@ -203,6 +205,7 @@ document.addEventListener("DOMContentLoaded", function () {
             root.style.setProperty("--color_secondary", root_variables.getPropertyValue("--light_mode_color_secondary"));
             root.style.setProperty("--color_accent", root_variables.getPropertyValue("--light_mode_color_accent"));
 
+            root.style.setProperty("--color_selection", root_variables.getPropertyValue("--light_mode_color_selection"));
             root.style.setProperty("--color_shadow", root_variables.getPropertyValue("--light_mode_color_shadow"));
         } else {
             root.style.setProperty("--color_text", root_variables.getPropertyValue("--dark_mode_color_text"));
@@ -211,6 +214,7 @@ document.addEventListener("DOMContentLoaded", function () {
             root.style.setProperty("--color_secondary", root_variables.getPropertyValue("--dark_mode_color_secondary"));
             root.style.setProperty("--color_accent", root_variables.getPropertyValue("--dark_mode_color_accent"));
 
+            root.style.setProperty("--color_selection", root_variables.getPropertyValue("--dark_mode_color_selection"));
             root.style.setProperty("--color_shadow", root_variables.getPropertyValue("--dark_mode_color_shadow"));
         }
     };
@@ -226,7 +230,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Add Conversation Button
 
     add_conversation_button.onclick = function(event) {
-        socket.emit("new_chat", "template");
+        const data = { "conversation_name": "default", "users": "users" }; // TODO: add functionality
+        socket.emit("new_chat", data);
     };
 
     // Server Logout / Time Out
