@@ -188,12 +188,13 @@ io.on("connection", (socket) => {
             const messages = chats[conversations]["messages"];
             const output = {};
 
-            let keys = null;
+            let keys = Object.keys(messages).sort();
 
             if (time == 0) {
-                keys = Object.keys(messages).slice(0, amount).reverse();
+                keys = keys.slice(keys.length - amount <= 0 ? 0 : keys.length - amount, keys.length);
             } else {
-                keys = Object.keys(messages).filter((timestamp) => parseInt(timestamp) < time).slice(0, amount).reverse();
+                keys = keys.filter((timestamp) => parseInt(timestamp) < time);
+                keys = keys.slice(keys.length - amount <= 0 ? 0 : keys.length - amount, keys.length);
             }
 
             for (const key of keys) {
